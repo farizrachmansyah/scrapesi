@@ -108,11 +108,11 @@ export default {
 		&:hover,
 		&:focus,
 		&.nuxt-link-active {
-			color: $fourty;
+			color: $thirdty;
 		}
 
 		&.nuxt-link-active {
-			border-right-color: $fourty;
+			border-right-color: $thirdty;
 		}
 
 		@media #{$medium} {

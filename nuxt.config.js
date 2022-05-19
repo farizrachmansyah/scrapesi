@@ -24,11 +24,11 @@ export default {
 	env: listENVS,
 	// Global page headers (https://go.nuxtjs.dev/config-head)
 	head: {
-		title: 'Baze',
+		title: 'Scrapesi',
 		meta: defaultMeta,
 		link: [
 			{ rel: 'apple-touch-icon', href: '/apple-icon.png' },
-			{ rel: 'icon', type: 'image/png', href: '/favicon.png' },
+			{ rel: 'icon', type: 'image/png', href: '/favicon.png' }
 		]
 	},
 
@@ -54,10 +54,7 @@ export default {
 	components: true,
 
 	// Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-	buildModules: [
-		'@nuxtjs/eslint-module',
-		'@nuxtjs/stylelint-module'
-	],
+	buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/stylelint-module'],
 
 	// Modules (https://go.nuxtjs.dev/config-modules)
 	modules: [
