@@ -1,9 +1,11 @@
 <template>
-	<nuxt-link to="/" class="site-logo">
-		<img  src="~assets/img/site-logo.png" alt="" width="60" />
-	</nuxt-link>
+	<nuxt-link to="/" class="site-logo">scrapesi</nuxt-link>
 </template>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.site-logo {
+	font-family: $base_logo_font;
+	font-size: 4rem;
+	color: $logo;
+}
 </style>

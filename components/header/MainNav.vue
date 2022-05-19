@@ -29,7 +29,7 @@ export default {
 	}
 
 	li {
-		font-weight: 600;
+		font-weight: 500;
 		display: flex;
 		align-items: center;
 	}

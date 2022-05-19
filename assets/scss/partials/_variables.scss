@@ -3,16 +3,25 @@
 $base_px_font_size: 16;
 $base_font_size: $base_px_font_size * 1px;
 $base_line_height: 1.6;
-$font_serif: 'Open Sans',-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+$font_serif: 'Montserrat',-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+	'Helvetica Neue', Arial, sans-serif;
+$font_hand: 'Just Another Hand',-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
 	'Helvetica Neue', Arial, sans-serif;
 $base_font_family: $font_serif;
+$base_logo_font: $font_hand;
 $space: $base_line_height * 1em;
 
 // Colors
 // ------------------------------------------------------------------------ //
 
 $palettes: (
-	'primary': #ff6600,
+	'primary': #081c15,
+	'secondary': #1b4332,
+	'thirdty': #2d6a4f,
+	'accent': #95d5b2,
+	'light': #d8f3dc,
+	'logo': #2d6a4f,
+
 	'black': #000,
 	'orange': #ff6600,
 	'red': #D60000,
@@ -41,6 +50,11 @@ $light-palettes: (
 }
 
 $primary: palette('primary');
+$secondary: palette('secondary');
+$thirdty: palette('thirdty');
+$accent: palette('accent');
+$light: palette('light');
+$logo: palette('logo');
 $green: palette('green');
 $orange: palette('orange');
 $red: palette('red');

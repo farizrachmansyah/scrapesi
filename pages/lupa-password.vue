@@ -78,8 +78,7 @@ export default {
 		resetPassword() {
 			this.$swal({
 				title: 'Email Notifikasi Berhasil Terkirim',
-				text:
-					'Pesan untuk atur ulang kata sandi sudah dikirim. Mohon untuk mengecek email anda',
+				text: 'Pesan untuk atur ulang kata sandi sudah dikirim. Mohon untuk mengecek email anda',
 				showConfirmButton: true,
 				confirmButtonColor: '#30981D',
 				confirmButtonText: 'Selesai',

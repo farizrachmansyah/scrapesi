@@ -18,24 +18,24 @@
 
 <script>
 export default {
+	layout: 'blanklayout',
 	props: {
 		error: {
 			type: Object,
 			default: null
 		}
 	},
-	layout: 'blanklayout',
+	head() {
+		return {
+			title: this.error.statusCode
+		}
+	},
 	computed: {
 		statusCode() {
 			return (this.error && this.error.statusCode) || 500
 		},
 		message() {
 			return this.error.message
-		}
-	},
-	head() {
-		return {
-			title: this.error.statusCode
 		}
 	}
 }
