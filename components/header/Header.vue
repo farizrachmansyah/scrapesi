@@ -97,7 +97,7 @@ export default {
 	}
 
 	.header-link {
-		color: $thirdty;
+		color: $primary;
 		height: 100%;
 		display: flex;
 		align-items: center;
@@ -108,11 +108,11 @@ export default {
 		&:hover,
 		&:focus,
 		&.nuxt-link-active {
-			color: $black;
+			color: $fourty;
 		}
 
 		&.nuxt-link-active {
-			border-right-color: $primary;
+			border-right-color: $fourty;
 		}
 
 		@media #{$medium} {
