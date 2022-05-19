@@ -98,7 +98,6 @@ export default {
 	}
 	.subtitle {
 		line-height: 1.2;
-		color: $black;
 		font-family: $font_sec_serif;
 		font-weight: 800;
 	}

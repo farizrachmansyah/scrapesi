@@ -14,7 +14,7 @@ export default {
 
 <style lang="scss" scoped>
 .site-footer {
-	background: $fourty;
+	background: $primary;
 }
 
 .copy {
