@@ -1,7 +1,7 @@
 <template>
 	<main class="site-main">
 		<div class="container pv-48 ph-24">
-			<section class="info">
+			<section class="info site-section">
 				<h4 class="title text-caps f-16">
 					a free automated job vacancies scraping converter tools
 				</h4>
@@ -10,6 +10,35 @@
 					documents easily
 				</h1>
 			</section>
+			<section class="site-section">
+				<form action="" class="form p-36">
+					<div class="mb-24">
+						<label for="query" class="input-label">
+							What are u looking for?
+						</label>
+						<input
+							id="query"
+							type="text"
+							placeholder="Job title, keywords, or company name"
+							class="form-input form-input--block"
+						/>
+					</div>
+					<div>
+						<label for="loc" class="input-label">Where?</label>
+						<input
+							id="loc"
+							type="text"
+							placeholder="Location"
+							class="form-input form-input--block"
+						/>
+					</div>
+					<div class="flex f-space-between mt-48">
+						<button class="btn--ghost-thirdty btn--transparent">Clear</button>
+						<button class="btn--thirdty">Find & Scrape</button>
+					</div>
+				</form>
+			</section>
+			<section class="site-section job-listings"></section>
 		</div>
 	</main>
 </template>
@@ -19,6 +48,19 @@ export default {}
 </script>
 
 <style lang="scss" scoped>
+.site-main {
+	// height: 100vh;
+
+	.container,
+	.job-listings {
+		height: 100%;
+	}
+}
+
+.site-section {
+	padding: 36px 0;
+}
+
 .info {
 	width: 65%;
 	margin: 0 auto;
@@ -35,6 +77,18 @@ export default {}
 		color: $black;
 		font-family: $font_sec_serif;
 		font-weight: 800;
+	}
+}
+
+.form {
+	width: 50%;
+	margin: 0 auto;
+	border-radius: 8px;
+	box-shadow: 0 2px 18px 2px rgba($thirdty, 0.25);
+
+	.input-label {
+		display: block;
+		font-weight: 600;
 	}
 }
 </style>

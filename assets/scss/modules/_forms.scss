@@ -17,7 +17,8 @@ input[type='number'] {
 
 .form-input {
 	padding: 8px;
-	border: solid 1px #ccc;
+	border: none;
+	border-bottom: solid 1px #ccc;
 	border-radius: 4px;
 	font-family: inherit;
 	background: #fff;
