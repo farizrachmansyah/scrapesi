@@ -6,6 +6,6 @@
 .site-logo {
 	font-family: $base_logo_font;
 	font-size: 4rem;
-	color: $black;
+	color: $secondary;
 }
 </style>

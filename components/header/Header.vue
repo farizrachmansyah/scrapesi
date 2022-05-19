@@ -107,18 +107,17 @@ export default {
 
 		&:hover,
 		&:focus,
-		&.is-active {
-			color: $primary;
+		&.nuxt-link-active {
+			color: $black;
 		}
 
-		&.is-active {
+		&.nuxt-link-active {
 			border-right-color: $primary;
 		}
 
 		@media #{$medium} {
-			&.is-active {
+			&.nuxt-link-active {
 				border-right-color: transparent;
-				border-bottom-color: $primary;
 			}
 		}
 	}
