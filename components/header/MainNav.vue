@@ -2,7 +2,9 @@
 	<nav class="main-nav">
 		<ul class="list-nostyle">
 			<li v-for="(nav, i) in mainNavData" :key="i" class="main-nav__item">
-				<nuxt-link class="header-link" :to="nav.url">{{ nav.title }}</nuxt-link>
+				<nuxt-link class="header-link text-caps text-bold f-12" :to="nav.url">{{
+					nav.title
+				}}</nuxt-link>
 			</li>
 		</ul>
 	</nav>

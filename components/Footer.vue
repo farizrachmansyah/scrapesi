@@ -1,5 +1,9 @@
 <template>
-	<footer class="site-footer"></footer>
+	<footer class="site-footer">
+		<div class="container pv-24">
+			<span class="copy f-12">&copy; 2022 Scrapesi.</span>
+		</div>
+	</footer>
 </template>
 
 <script>
@@ -8,4 +12,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.site-footer {
+	background: $fourty;
+}
+
+.copy {
+	color: $white;
+	font-weight: 500;
+}
+</style>

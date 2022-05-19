@@ -5,7 +5,7 @@
 				<h4 class="title text-caps f-16">
 					a free automated job vacancies scraping converter tools
 				</h4>
-				<h1 class="subtitle text-cap">
+				<h1 class="subtitle text-cap m-0">
 					collect targeted job vacancies and convert them into spreadsheet
 					documents easily
 				</h1>
@@ -18,6 +18,7 @@
 						</label>
 						<input
 							id="query"
+							v-model="query"
 							type="text"
 							placeholder="Job title, keywords, or company name"
 							class="form-input form-input--block"
@@ -27,33 +28,56 @@
 						<label for="loc" class="input-label">Where?</label>
 						<input
 							id="loc"
+							v-model="loc"
 							type="text"
 							placeholder="Location"
 							class="form-input form-input--block"
 						/>
 					</div>
 					<div class="flex f-space-between mt-48">
-						<button class="btn--ghost-thirdty btn--transparent">Clear</button>
+						<button
+							class="btn--ghost-thirdty btn--transparent"
+							@click.prevent="reset()"
+						>
+							Clear
+						</button>
 						<button class="btn--thirdty">Find & Scrape</button>
 					</div>
 				</form>
 			</section>
-			<section class="site-section job-listings"></section>
+		</div>
+		<div class="wrapper">
+			<JobResults />
 		</div>
 	</main>
 </template>
 
 <script>
-export default {}
+import JobResults from '~/components/job/JobResults'
+
+export default {
+	components: {
+		JobResults
+	},
+	data() {
+		return {
+			query: '',
+			loc: ''
+		}
+	},
+	methods: {
+		reset() {
+			this.query = ''
+			this.loc = ''
+		}
+	}
+}
 </script>
 
 <style lang="scss" scoped>
 .site-main {
-	// height: 100vh;
-
-	.container,
-	.job-listings {
-		height: 100%;
+	.wrapper {
+		background: $fourty;
 	}
 }
 
