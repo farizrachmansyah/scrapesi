@@ -97,7 +97,7 @@ export default {
 	}
 
 	.header-link {
-		color: $primary;
+		color: $thirdty;
 		height: 100%;
 		display: flex;
 		align-items: center;
@@ -108,17 +108,17 @@ export default {
 		&:hover,
 		&:focus,
 		&.is-active {
-			color: $thirdty;
+			color: $primary;
 		}
 
 		&.is-active {
-			border-right-color: $thirdty;
+			border-right-color: $primary;
 		}
 
 		@media #{$medium} {
 			&.is-active {
 				border-right-color: transparent;
-				border-bottom-color: $thirdty;
+				border-bottom-color: $primary;
 			}
 		}
 	}
