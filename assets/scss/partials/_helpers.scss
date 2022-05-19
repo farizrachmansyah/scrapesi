@@ -56,8 +56,17 @@
 	font-weight: normal;
 }
 
+.text-bold {
+	font-weight: 700;
+}
 .text-semibold {
 	font-weight: 600;
+}
+.text-medium {
+	font-weight: 500;
+}
+.text-light {
+	font-weight: 300;
 }
 
 // Visual helper
@@ -166,6 +175,18 @@ $gaps: 0, 2, 4, 8, 12, 16, 18, 20, 24, 32, 36, 48, 64;
 	.mt-#{$gap} {
 		margin-top: $gap * 1px !important;
 	}
+	.mh-#{$gap} {
+		margin-left: $gap * 1px !important;
+		margin-right: $gap * 1px !important;
+	}
+	.mv-#{$gap} {
+		margin-top: $gap * 1px !important;
+		margin-bottom: $gap * 1px !important;
+	}
+	.m-#{$gap} {
+		margin: $gap * 1px !important;
+	}
+
 	.pb-#{$gap} {
 		padding-bottom: $gap * 1px !important;
 	}
