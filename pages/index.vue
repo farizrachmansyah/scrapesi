@@ -1,24 +1,18 @@
 <template>
-	<main class="site-main">
-		<div class="container">
-			<h1>Home</h1>
-		</div>
-	</main>
+	<main class="site-main"></main>
 </template>
 
 <script>
 export default {
-	data() {
-		return {
-			
-		}
-	},
 	head() {
 		return {
 			...this.$SEOMeta({
-				metaTitle: 'Suit Baze'
+				metaTitle: 'Scrapesi'
 			})
 		}
+	},
+	beforeMount() {
+		this.$router.push('job')
 	}
 }
 </script>
