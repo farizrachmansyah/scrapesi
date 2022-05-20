@@ -41,24 +41,21 @@
 						>
 							Clear
 						</button>
-						<button class="btn--thirdty">Find & Scrape</button>
+						<button class="btn--thirdty" @click.prevent="scrape()">
+							Find & Scrape
+						</button>
 					</div>
 				</form>
 			</section>
 		</div>
-		<div class="wrapper">
+		<!-- <div class="wrapper">
 			<JobResults />
-		</div>
+		</div> -->
 	</main>
 </template>
 
 <script>
-import JobResults from '~/components/job/JobResults'
-
 export default {
-	components: {
-		JobResults
-	},
 	data() {
 		return {
 			query: '',
@@ -69,6 +66,9 @@ export default {
 		reset() {
 			this.query = ''
 			this.loc = ''
+		},
+		scrape() {
+			this.$router.push('job/result')
 		}
 	}
 }
