@@ -1,8 +1,8 @@
 export default {
 	data: [
 		{
-			old_url: '/old',
-			new_url: '/new'
+			old_url: '/job/result',
+			new_url: '/job/result?tab=result'
 		}
-  ]
+	]
 }
