@@ -119,7 +119,23 @@ export default {
 
 	// Build Configuration (https://go.nuxtjs.dev/config-build)
 	build: {
-		extend(config, ctx) {},
+		extend(config, { isServer, isClient }) {
+			config.externals = config.externals || {}
+			if (!isServer) {
+				config.node = {
+					fs: 'empty'
+				}
+				if (Array.isArray(config.externals)) {
+					config.externals.push({
+						puppeteer: require('puppeteer')
+					})
+				} else {
+					config.externals.puppeteer = require('puppeteer')
+				}
+			}
+			config.output.globalObject = 'this'
+			return config
+		},
 		postcss: {
 			preset: {
 				autoprefixer: {
