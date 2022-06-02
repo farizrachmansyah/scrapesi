@@ -5,7 +5,7 @@
 <style lang="scss" scoped>
 .site-logo {
 	font-family: $base_logo_font;
-	font-size: 4rem;
+	font-size: 3rem;
 	color: $secondary;
 }
 </style>

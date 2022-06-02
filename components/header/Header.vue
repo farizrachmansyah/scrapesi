@@ -57,6 +57,7 @@ export default {
 	width: 100%;
 	background-color: #fff;
 	height: 60px;
+	border-bottom: 1px solid #e6e6e6;
 
 	& > .container {
 		display: flex;
