@@ -1,5 +1,9 @@
 <template>
-	<div class="card p-12">
+	<a
+		href="https://farizrachmansyah.netlify.app"
+		target="_blank"
+		class="card p-12"
+	>
 		<div class="mb-48">
 			<h1 class="job-name">Job Name</h1>
 			<h3 class="comp-name">Company Name</h3>
@@ -8,7 +12,7 @@
 		<div class="text-light-grey text-right">
 			<span class="time-desc pv-4 ph-12 bg-fourty">Time description</span>
 		</div>
-	</div>
+	</a>
 </template>
 
 <script>
@@ -17,8 +21,16 @@ export default {}
 
 <style lang="scss" scoped>
 .card {
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+	display: inline-block;
+	width: 100%;
 	border-radius: 16px;
 	border: 1px solid $fourty;
+	transition: all 0.3s;
+
+	&:hover {
+		box-shadow: none;
+	}
 
 	.job-name,
 	.comp-name,
