@@ -30,11 +30,7 @@
 				</div>
 			</div>
 			<div v-else class="pv-24">
-				<h3>ini history</h3>
-				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem aliquam
-					voluptatem numquam natus sint corporis!
-				</p>
+				<HistoryCard v-for="data in 5" :key="`hcard-${data}`" />
 			</div>
 		</section>
 		<JobResult v-show="isResultTab" class="result-component" />
@@ -44,11 +40,13 @@
 <script>
 import JobResult from '~/components/job/JobResults.vue'
 import JobCard from '~/components/job/JobCard.vue'
+import HistoryCard from '~/components/job/HistoryCard.vue'
 
 export default {
 	components: {
 		JobResult,
-		JobCard
+		JobCard,
+		HistoryCard
 	},
 	data() {
 		return {
