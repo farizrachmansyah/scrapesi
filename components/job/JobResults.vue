@@ -94,6 +94,17 @@ export default {
 }
 
 .select-custom__panel {
+	box-shadow: 0 3px 8px rgba($black, 0.1);
+	top: 0;
+	left: 0;
+	position: absolute;
+	transform: translate(0, -95%);
 	width: 100px;
+}
+
+.select-custom.is-active {
+	.select-custom__panel {
+		transform: translate(0, -105%);
+	}
 }
 </style>
