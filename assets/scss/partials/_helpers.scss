@@ -37,6 +37,10 @@
 	text-align: right;
 }
 
+.text-justify {
+	text-align: justify;
+}
+
 .text-ellipsis {
 	display: block;
 	text-overflow: ellipsis;
@@ -65,7 +69,7 @@
 .text-medium {
 	font-weight: 500;
 }
-.text-light {
+.text-lightsize {
 	font-weight: 300;
 }
 
