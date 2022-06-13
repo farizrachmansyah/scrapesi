@@ -1,13 +1,49 @@
 <template>
 	<main class="site-main">
 		<div class="container">
-			<h1>News</h1>
+			<div class="tab-nav pt-24 mb-24">
+				<ul class="list-nostyle">
+					<li>
+						<button
+							:class="{ 'tab-active': tabActive === 'business' }"
+							class="btn-tab btn--transparent"
+							@click="changeTab('business')"
+						>
+							Business
+						</button>
+					</li>
+					<li>
+						<button
+							:class="{ 'tab-active': tabActive === 'technology' }"
+							class="btn-tab btn--transparent"
+							@click="changeTab('technology')"
+						>
+							Technology
+						</button>
+					</li>
+					<li>
+						<button
+							:class="{ 'tab-active': tabActive === 'entertainment' }"
+							class="btn-tab btn--transparent"
+							@click="changeTab('entertainment')"
+						>
+							Entertainment
+						</button>
+					</li>
+				</ul>
+			</div>
+
 			<div v-if="$fetchState.pending" class="text-center p-24">
 				<span class="spinner"></span>
 			</div>
 			<div v-else class="bzg">
-				<div v-for="(item, i) in news" :key="i" class="bzg_c" data-col="m6, l3">
-					<card :card-data="item" path="/news/" />
+				<div
+					v-for="(item, i) in news"
+					:key="`news-${i}`"
+					class="bzg_c"
+					:data-col="i === 0 ? 's12' : 'm6l4'"
+				>
+					<NewsCard :card-data="item" path="/news/" :slug="i" />
 				</div>
 			</div>
 		</div>
@@ -15,13 +51,16 @@
 </template>
 
 <script>
+import NewsCard from '~/components/news/NewsCard.vue'
+
 export default {
 	components: {
-		card: () => import('~/components/news/card')
+		NewsCard
 	},
 	data() {
 		return {
-			news: []
+			news: [],
+			tabActive: 'business'
 		}
 	},
 	async fetch() {
@@ -35,25 +74,56 @@ export default {
 			})
 		}
 	},
+	watch: {
+		tabActive() {
+			this.updateData()
+		}
+	},
 	methods: {
-		updateData() {
-			this.$axios
-				.get('/base/ideas', {
+		async updateData() {
+			const API_URL =
+				'https://newsapi.org/v2/top-headlines?country=id&apiKey=7e9507038e2e450a9749d80784a468bc'
+
+			await this.$axios
+				.get(API_URL, {
 					params: {
-						'page[number]': this.currentPage,
-						'page[size]': 10,
-						append: 'small_image,medium_image'
+						category: this.tabActive
 					}
 				})
 				.then(res => {
-					this.news = res.data.data
+					if (res.status === 200) {
+						this.news = res.data.articles
+					}
 				})
 				.catch(err => {
+					// eslint-disable-next-line no-console
 					console.log(err)
 				})
+		},
+		changeTab(tab) {
+			this.tabActive = tab
 		}
 	}
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tab-nav {
+	overflow-x: auto;
+}
+
+.btn-tab {
+	font-weight: 400;
+
+	&.tab-active {
+		font-weight: 700;
+	}
+}
+
+.bzg_c {
+	@media #{$medium} {
+		padding-left: 32px;
+		margin-bottom: 32px;
+	}
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-	<div class="card p-24">
+	<div class="card p-16">
 		<h2>Feature Title</h2>
 		<p class="text-justify mb-0">
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis atque
