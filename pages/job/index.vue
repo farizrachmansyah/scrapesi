@@ -11,7 +11,7 @@
 				</h1>
 			</section>
 			<section class="site-section">
-				<form action="" class="form p-36" @submit.prevent="scrape()">
+				<form action="" class="form p-36" @submit.prevent="findAndScrape">
 					<div class="mb-16">
 						<label for="query" class="input-label">
 							What are u looking for?
@@ -92,11 +92,13 @@ export default {
 				JSON.parse(localStorage.getItem('search'))
 			)
 		},
-		scrape() {
+		findAndScrape() {
 			// check fields and save history
 			if (this.query.length || this.loc.length) {
 				this.isWarning = false
 				this.saveSearchKey(this.query, this.loc)
+
+				// move page
 				this.$router.push({
 					path: 'job/result',
 					query: {
@@ -108,61 +110,7 @@ export default {
 			} else {
 				this.isWarning = true
 			}
-			// let url = `https://id.indeed.com/jobs?q=${this.query}&l=${this.loc}
-			// const allJobs = []
-
-			// while (true) {
-			// 	const jobPerPage = await this.scrapeJob(url)
-			// 	allJobs.push(jobPerPage)
-
-			// 	try {
-			// 		url = await this.scrapeNextBtn(url)
-			// 	} catch {
-			// 		break
-			// 	}
-			// }
-
-			// if (allJobs.length) {
-			// 	this.$router.push('job/result')
-			// }
 		}
-		// async scrapeNextBtn(url) {
-		// 	const browser = await pptr.launch()
-		// 	const page = await browser.newPage()
-		// 	await page.goto(url)
-
-		// 	const btnUrl = await page.$eval(
-		// 		'#resultsCol > nav > div > ul > li:nth-child(7) > a',
-		// 		el => {
-		// 			if (el.ariaLabel === 'Next') {
-		// 				return el.href
-		// 			}
-		// 		}
-		// 	)
-
-		// 	await browser.close()
-		// 	return btnUrl
-		// },
-		// async scrapeJob(url) {
-		// 	const browser = await pptr.launch()
-		// 	const page = await browser.newPage()
-		// 	await page.goto(url)
-
-		// 	// get all jobcard perpage
-		// 	const jobPerPage = await page.$$eval(
-		// 		'#mosaic-provider-jobcards a.tapItem',
-		// 		cards => {
-		// 			return cards.map(card => ({
-		// 				jobTitle: card.querySelector('h2.jobTitle > span').title,
-		// 				companyName: card.querySelector('.companyName').textContent,
-		// 				url: `https://id.indeed.com/${card.getAttribute('href')}`
-		// 			}))
-		// 		}
-		// 	)
-
-		// 	await browser.close()
-		// 	return jobPerPage
-		// }
 	}
 }
 </script>
