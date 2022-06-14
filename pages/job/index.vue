@@ -12,7 +12,7 @@
 			</section>
 			<section class="site-section">
 				<form action="" class="form p-36" @submit.prevent="scrape()">
-					<div class="mb-24">
+					<div class="mb-16">
 						<label for="query" class="input-label">
 							What are u looking for?
 						</label>
@@ -24,7 +24,7 @@
 							class="form-input form-input--block"
 						/>
 					</div>
-					<div>
+					<div class="mb-8">
 						<label for="loc" class="input-label">Where?</label>
 						<input
 							id="loc"
@@ -34,13 +34,17 @@
 							class="form-input form-input--block"
 						/>
 					</div>
-					<div class="flex f-space-between mt-48">
+					<label v-show="isWarning" class="text-red d-block f-12">
+						Please fill out one of the following fields.
+					</label>
+					<div class="form-action flex mt-48">
 						<button
 							class="btn--ghost-thirdty btn--transparent"
 							@click.prevent="reset()"
 						>
 							Clear
 						</button>
+						<button class="btn--ghost-thirdty">Recent Results</button>
 						<button class="btn--thirdty">Find & Scrape</button>
 					</div>
 				</form>
@@ -57,7 +61,8 @@ export default {
 	data() {
 		return {
 			query: '',
-			loc: ''
+			loc: '',
+			isWarning: false
 		}
 	},
 	methods: {
@@ -65,8 +70,44 @@ export default {
 			this.query = ''
 			this.loc = ''
 		},
+		saveSearchKey(q, loc) {
+			// siapin object
+			const objItem = {
+				q,
+				loc
+			}
+
+			// check storagenya udah ada apa belom array searchnya di storage
+			let search
+			if (localStorage.getItem('search') === null) {
+				search = []
+			} else {
+				search = JSON.parse(localStorage.getItem('search'))
+			}
+
+			search.push(objItem)
+			localStorage.setItem('search', JSON.stringify(search))
+			this.$store.commit(
+				'SET_SEARCHKEY',
+				JSON.parse(localStorage.getItem('search'))
+			)
+		},
 		scrape() {
-			this.$router.push('job/result')
+			// check fields and save history
+			if (this.query.length || this.loc.length) {
+				this.isWarning = false
+				this.saveSearchKey(this.query, this.loc)
+				this.$router.push({
+					path: 'job/result',
+					query: {
+						q: this.query,
+						loc: this.loc,
+						tab: 'result'
+					}
+				})
+			} else {
+				this.isWarning = true
+			}
 			// let url = `https://id.indeed.com/jobs?q=${this.query}&l=${this.loc}
 			// const allJobs = []
 
@@ -138,8 +179,12 @@ export default {
 }
 
 .info {
-	width: 65%;
+	width: 90%;
 	margin: 0 auto;
+
+	@media #{$large} {
+		width: 65%;
+	}
 
 	& > * {
 		text-align: center;
@@ -156,7 +201,7 @@ export default {
 }
 
 .form {
-	width: 50%;
+	max-width: 600px;
 	margin: 0 auto;
 	border-radius: 8px;
 	box-shadow: 0 2px 18px 2px rgba($thirdty, 0.25);
@@ -164,6 +209,23 @@ export default {
 	.input-label {
 		display: block;
 		font-weight: 600;
+	}
+}
+
+.form-action {
+	flex-direction: column-reverse;
+
+	& > * {
+		margin-bottom: 12px;
+	}
+
+	@media #{$medium} {
+		flex-direction: row;
+
+		& > *:nth-child(2) {
+			margin-left: auto;
+			margin-right: 12px;
+		}
 	}
 }
 </style>

@@ -30,7 +30,11 @@
 				</div>
 			</div>
 			<div v-else class="pv-24">
-				<HistoryCard v-for="data in 5" :key="`hcard-${data}`" />
+				<HistoryCard
+					v-for="(data, i) in localHistory"
+					:key="`hcard-${i}`"
+					:card-data="data"
+				/>
 			</div>
 		</section>
 		<JobResult v-show="isResultTab" class="result-component" />
@@ -56,6 +60,20 @@ export default {
 	computed: {
 		isResultTab() {
 			return this.$route.query.tab === 'result'
+		},
+		localHistory() {
+			return this.$store.state.searchKeyData
+		}
+	},
+	mounted() {
+		// setup search key data in vuex
+		if (localStorage.search !== undefined) {
+			if (JSON.parse(localStorage.getItem('search')).length) {
+				this.$store.commit(
+					'SET_SEARCHKEY',
+					JSON.parse(localStorage.getItem('search')).reverse()
+				)
+			}
 		}
 	},
 	methods: {

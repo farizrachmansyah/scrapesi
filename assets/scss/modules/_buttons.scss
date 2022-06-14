@@ -81,7 +81,6 @@
 
     &:hover {
         color: #fff;
-        text-shadow: 0 1px 2px darken($bg, 15%);
         @if $shade == dark {
             background-color: $bg;
         } @else if $shade == light {
