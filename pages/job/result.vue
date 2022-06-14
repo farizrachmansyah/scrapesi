@@ -52,54 +52,27 @@ export default {
 		JobCard,
 		HistoryCard
 	},
-	async asyncData({ route }) {
-		const pptr = require('puppeteer')
-		let url = `https://id.indeed.com/jobs?q=${route.query.q}&l=${route.query.loc}`
-		const allJobs = []
-
-		const browser = await pptr.launch()
-		const page = await browser.newPage()
-		while (true) {
-			await page.goto(url)
-			// get all jobcard perpage
-			const jobPerPage = await page.$$eval(
-				'#mosaic-provider-jobcards .tapItem.result',
-				cards => {
-					return cards.map(card => ({
-						jobTitle: card.querySelector('h2.jobTitle > a > span').title,
-						companyName: card.querySelector('.companyInfo .companyName')
-							.textContent,
-						jobLocation: card.querySelector('.companyLocation').textContent,
-						url: `https://id.indeed.com${card
-							.querySelector('h2.jobTitle > a')
-							.getAttribute('href')}`
-					}))
-				}
-			)
-			allJobs.push(jobPerPage)
-
-			try {
-				const btnUrl = await page.$eval(
-					'#resultsCol > nav > div > ul > li:last-child > a',
-					el => {
-						if (el.ariaLabel === 'Next' || el.ariaLabel === 'Berikutnya') {
-							return el.href
-						}
-					}
-				)
-				url = btnUrl
-			} catch {
-				break
-			}
+	async asyncData({ store, route }) {
+		const objParam = {
+			q: route.query.q,
+			loc: route.query.loc
 		}
 
-		await browser.close()
+		const getJobs = store.getters['job/getJobs']
+		let jobs = getJobs()
+
+		// kalo di vuex jobsnya kosong, kasih action
+		if (!jobs.length) {
+			jobs = await store.dispatch('job/getJobs', objParam)
+		}
+
 		return {
-			jobs: allJobs
+			jobs
 		}
 	},
 	data() {
 		return {
+			page: parseInt(this.$route.query.page) || 1,
 			scrapedData: 15
 		}
 	},

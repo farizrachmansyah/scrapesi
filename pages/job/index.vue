@@ -11,7 +11,12 @@
 				</h1>
 			</section>
 			<section class="site-section">
-				<form action="" class="form p-36" @submit.prevent="findAndScrape">
+				<form
+					action="/job/result"
+					method="GET"
+					class="form p-36"
+					@submit="findAndScrape"
+				>
 					<div class="mb-16">
 						<label for="query" class="input-label">
 							What are u looking for?
@@ -44,9 +49,17 @@
 						>
 							Clear
 						</button>
-						<button class="btn--ghost-thirdty">Recent Results</button>
+						<nuxt-link to="/" class="btn--ghost-thirdty">
+							Recent Results
+						</nuxt-link>
 						<button class="btn--thirdty">Find & Scrape</button>
 					</div>
+
+					<!-- old way form submitting -->
+					<input type="hidden" name="q" :value="query" />
+					<input type="hidden" name="loc" :value="loc" />
+					<input type="hidden" name="tab" value="result" />
+					<input type="hidden" name="page" value="1" />
 				</form>
 			</section>
 		</div>
@@ -97,16 +110,6 @@ export default {
 			if (this.query.length || this.loc.length) {
 				this.isWarning = false
 				this.saveSearchKey(this.query, this.loc)
-
-				// move page
-				this.$router.push({
-					path: 'job/result',
-					query: {
-						q: this.query,
-						loc: this.loc,
-						tab: 'result'
-					}
-				})
 			} else {
 				this.isWarning = true
 			}

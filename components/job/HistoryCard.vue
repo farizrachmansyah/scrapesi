@@ -73,13 +73,15 @@ export default {
 			delete currQuery.q
 			delete currQuery.loc
 			delete currQuery.tab
+			delete currQuery.page
 
 			this.$router.push({
 				path: '/job/result',
 				query: {
 					q: this.cardData.q,
 					loc: this.cardData.loc,
-					tab: 'result'
+					tab: 'result',
+					page: 1
 				}
 			})
 		}
