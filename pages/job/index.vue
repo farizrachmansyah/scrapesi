@@ -42,6 +42,9 @@
 					<label v-show="isWarning" class="text-red d-block f-12">
 						Please fill out one of the following fields.
 					</label>
+					<label v-show="hasRecentKey" class="text-red d-block f-12">
+						You don't have any recent search.
+					</label>
 					<div class="form-action flex mt-48">
 						<button
 							class="btn--ghost-thirdty btn--transparent"
@@ -49,9 +52,9 @@
 						>
 							Clear
 						</button>
-						<nuxt-link to="/" class="btn--ghost-thirdty">
+						<button class="btn--ghost-thirdty" @click.prevent="goToRecent()">
 							Recent Results
-						</nuxt-link>
+						</button>
 						<button class="btn--thirdty">Find & Scrape</button>
 					</div>
 
@@ -75,7 +78,8 @@ export default {
 		return {
 			query: '',
 			loc: '',
-			isWarning: false
+			isWarning: false,
+			hasRecentKey: false
 		}
 	},
 	methods: {
@@ -105,13 +109,33 @@ export default {
 				JSON.parse(localStorage.getItem('search'))
 			)
 		},
-		findAndScrape() {
+		findAndScrape(e) {
 			// check fields and save history
 			if (this.query.length || this.loc.length) {
 				this.isWarning = false
 				this.saveSearchKey(this.query, this.loc)
+				return true
 			} else {
 				this.isWarning = true
+				e.preventDefault()
+			}
+		},
+		goToRecent() {
+			const keyHistory = JSON.parse(localStorage.getItem('search'))
+			if (keyHistory && keyHistory.length) {
+				this.hasRecentKey = false
+				const keyObj = keyHistory[keyHistory.length - 1]
+				this.$router.push({
+					path: '/job/result',
+					query: {
+						q: keyObj.q,
+						loc: keyObj.loc,
+						tab: 'result',
+						page: 1
+					}
+				})
+			} else {
+				this.hasRecentKey = true
 			}
 		}
 	}
