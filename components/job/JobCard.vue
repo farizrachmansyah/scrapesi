@@ -6,7 +6,7 @@
 			<p class="loc-name">{{ cardData.jobLocation }}</p>
 		</div>
 		<div class="text-light-grey text-right">
-			<span class="time-desc pv-4 ph-12 bg-fourty">Time description</span>
+			<span class="time-desc pv-4 ph-12 bg-fourty">{{ cardData.time }}</span>
 		</div>
 	</a>
 </template>
@@ -64,7 +64,7 @@ export default {
 	}
 	.time-desc {
 		border-radius: 16px;
-		font-size: 14px;
+		font-size: 12px;
 	}
 }
 </style>

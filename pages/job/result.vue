@@ -18,7 +18,7 @@
 		</section>
 		<section class="container">
 			<div v-if="isResultTab" class="pv-24">
-				<div class="bzg">
+				<div class="bzg mb-48">
 					<div
 						v-for="(data, index) in jobsPerPage"
 						:key="index"
@@ -28,6 +28,15 @@
 						<JobCard :card-data="data" />
 					</div>
 				</div>
+				<Pagination
+					v-if="lastPage > 1"
+					:total-pages="lastPage"
+					:current-page="currPage"
+					:per-page="15"
+					:total="lastPage"
+					class="mb-48"
+					@pagechanged="onPageChange"
+				/>
 			</div>
 			<div v-else class="pv-24">
 				<HistoryCard
@@ -72,6 +81,7 @@ export default {
 	},
 	data() {
 		return {
+			currPage: parseInt(this.$route.query.page) || 1,
 			scrapedData: 15
 		}
 	},
@@ -82,11 +92,11 @@ export default {
 		localHistory() {
 			return this.$store.state.searchKeyData
 		},
-		page() {
-			return parseInt(this.$route.query.page) || 1
+		lastPage() {
+			return this.jobs.length
 		},
 		jobsPerPage() {
-			return this.jobs[this.page - 1]
+			return this.jobs[this.currPage - 1]
 		}
 	},
 	// watch: {
@@ -135,6 +145,18 @@ export default {
 					}
 				})
 			}
+		},
+		onPageChange(page) {
+			const currQuery = this.$route.query
+			this.currPage = page
+			delete currQuery.page
+
+			this.$router.push({
+				query: {
+					...currQuery,
+					page
+				}
+			})
 		}
 	}
 }
@@ -153,6 +175,7 @@ export default {
 
 .result-component {
 	position: sticky;
+	z-index: 2;
 	bottom: 0;
 	margin-top: auto;
 }

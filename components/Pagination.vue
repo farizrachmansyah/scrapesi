@@ -1,5 +1,5 @@
 <template>
-	<ul class="pagination">
+	<ul class="pagination v-center">
 		<li class="pagination-item">
 			<button
 				class="btn-arrow"

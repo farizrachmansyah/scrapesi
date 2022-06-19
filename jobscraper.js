@@ -23,6 +23,8 @@ class Jobs {
 						companyName: card.querySelector('.companyInfo .companyName')
 							.textContent,
 						jobLocation: card.querySelector('.companyLocation').textContent,
+						time: card.querySelector('.underShelfFooter .date').childNodes[1]
+							.nodeValue,
 						url: `https://id.indeed.com${card
 							.querySelector('h2.jobTitle > a')
 							.getAttribute('href')}`
