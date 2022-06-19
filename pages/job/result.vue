@@ -20,12 +20,12 @@
 			<div v-if="isResultTab" class="pv-24">
 				<div class="bzg">
 					<div
-						v-for="(data, index) in scrapedData"
+						v-for="(data, index) in jobsPerPage"
 						:key="index"
 						class="bzg_c"
 						data-col="s6m4"
 					>
-						<JobCard />
+						<JobCard :card-data="data" />
 					</div>
 				</div>
 			</div>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+// import { mapState } from 'vuex'
 import JobResult from '~/components/job/JobResults.vue'
 import JobCard from '~/components/job/JobCard.vue'
 import HistoryCard from '~/components/job/HistoryCard.vue'
@@ -61,7 +62,6 @@ export default {
 		const getJobs = store.getters['job/getJobs']
 		let jobs = getJobs()
 
-		// kalo di vuex jobsnya kosong, kasih action
 		if (!jobs.length) {
 			jobs = await store.dispatch('job/getJobs', objParam)
 		}
@@ -72,7 +72,6 @@ export default {
 	},
 	data() {
 		return {
-			page: parseInt(this.$route.query.page) || 1,
 			scrapedData: 15
 		}
 	},
@@ -82,9 +81,26 @@ export default {
 		},
 		localHistory() {
 			return this.$store.state.searchKeyData
+		},
+		page() {
+			return parseInt(this.$route.query.page) || 1
+		},
+		jobsPerPage() {
+			return this.jobs[this.page - 1]
 		}
 	},
+	// watch: {
+	// 	page() {
+	// 		console.log(this.page)
+	// 	}
+	// },
 	watchQuery: ['q', 'loc'],
+	created() {
+		// handle kalo jobsnya gadapet dari asyncData, ambil dari vuex
+		if (!this.jobs || !this.jobs.length) {
+			this.jobs = this.$store.state.job.jobs
+		}
+	},
 	mounted() {
 		// setup search key data in vuex
 		if (localStorage.search !== undefined) {
@@ -99,14 +115,26 @@ export default {
 	methods: {
 		changeTab(tab) {
 			const currQuery = this.$route.query
-			delete currQuery.tab
 
-			this.$router.push({
-				query: {
-					...currQuery,
-					tab
-				}
-			})
+			if (tab === 'result') {
+				delete currQuery.tab
+				this.$router.push({
+					query: {
+						...currQuery,
+						tab,
+						page: 1
+					}
+				})
+			} else {
+				delete currQuery.tab
+				delete currQuery.page
+				this.$router.push({
+					query: {
+						...currQuery,
+						tab
+					}
+				})
+			}
 		}
 	}
 }
@@ -114,6 +142,8 @@ export default {
 
 <style lang="scss" scoped>
 .site-main {
+	display: flex;
+	flex-direction: column;
 	height: calc(100% - 70px);
 }
 
@@ -124,6 +154,6 @@ export default {
 .result-component {
 	position: sticky;
 	bottom: 0;
-	width: 100%;
+	margin-top: auto;
 }
 </style>
