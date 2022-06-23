@@ -65,25 +65,10 @@ export default {
 				this.saveSearchKey(this.cardData.q, this.cardData.loc)
 			}
 
-			// modify query
-			this.modifyPageQuery()
-		},
-		modifyPageQuery() {
-			const currQuery = this.$route.query
-			delete currQuery.q
-			delete currQuery.loc
-			delete currQuery.tab
-			delete currQuery.page
-
-			this.$router.push({
-				path: '/job/result',
-				query: {
-					q: this.cardData.q,
-					loc: this.cardData.loc,
-					tab: 'result',
-					page: 1
-				}
-			})
+			// move page
+			window.location.replace(
+				`${window.location.origin}/job/result?q=${this.cardData.q}&loc=${this.cardData.loc}&tab=result&page=1`
+			)
 		}
 	}
 }
