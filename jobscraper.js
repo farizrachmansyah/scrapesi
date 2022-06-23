@@ -3,27 +3,40 @@ let browser, page
 
 class Jobs {
 	static async initPage() {
-		browser = await pptr.launch()
+		browser = await pptr.launch({
+			args: [
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--disable-dev-shm-usage',
+				'--disable-accelerated-2d-canvas',
+				'--no-first-run',
+				'--no-zygote',
+				'--single-process', // <- this one doesn't works in Windows
+				'--disable-gpu'
+			]
+		})
 		page = await browser.newPage()
 	}
 
 	static async scrapeJob(query, loc) {
-		let url = `https://id.indeed.com/jobs?q=${query}&l=${loc}`
 		await this.initPage()
-
+		let url = `https://id.indeed.com/jobs?q=${query}&l=${loc}`
 		const allJobs = []
+
 		while (true) {
-			await page.goto(url)
+			await page.goto(url, { waitUntil: 'networkidle2' })
+			await page.waitForSelector('#mosaic-provider-jobcards').catch(() => {})
+
 			// get all jobcard perpage
 			const jobPerPage = await page.$$eval(
-				'#mosaic-provider-jobcards .tapItem.result',
+				'.jobsearch-ResultsList .tapItem.result .job_seen_beacon',
 				cards => {
 					return cards.map(card => ({
 						jobTitle: card.querySelector('h2.jobTitle > a > span').title,
 						companyName: card.querySelector('.companyInfo .companyName')
 							.textContent,
 						jobLocation: card.querySelector('.companyLocation').textContent,
-						time: card.querySelector('.underShelfFooter .date').childNodes[1]
+						time: card.querySelector('.underShelfFooter .date').lastChild
 							.nodeValue,
 						url: `https://id.indeed.com${card
 							.querySelector('h2.jobTitle > a')
