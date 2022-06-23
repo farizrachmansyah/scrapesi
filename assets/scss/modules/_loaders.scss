@@ -6,6 +6,16 @@
   border: 5px solid rgba($black, 0.1);
   border-top-color: lighten($primary, 5%);
   animation: spinning 1s infinite both;
+
+  &-small {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid rgba($black, 0.2);
+    border-top-color: $white;
+    animation: spinning 1s infinite both;
+  }
 }
 
 @keyframes spinning {
@@ -13,6 +23,6 @@
     transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }

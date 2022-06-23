@@ -11,7 +11,12 @@
 				</h1>
 			</section>
 			<section class="site-section">
-				<form class="form p-36" @submit.prevent="findAndScrape">
+				<form
+					action="/job/result"
+					method="GET"
+					class="form p-36"
+					@submit="findAndScrape"
+				>
 					<div class="mb-16">
 						<label for="query" class="input-label">
 							What are u looking for?
@@ -50,8 +55,20 @@
 						<button class="btn--ghost-thirdty" @click.prevent="goToRecent()">
 							Recent Results
 						</button>
-						<button class="btn--thirdty">Find & Scrape</button>
+						<button class="btn--thirdty">
+							<div v-if="isScraping" class="flex v-center">
+								<span class="spinner-small"></span>
+								<span class="ml-12">Scraping</span>
+							</div>
+							<span v-else>Find & Scrape</span>
+						</button>
 					</div>
+
+					<!-- old way form submitting -->
+					<input type="hidden" name="q" :value="query" />
+					<input type="hidden" name="loc" :value="loc" />
+					<input type="hidden" name="tab" value="result" />
+					<input type="hidden" name="page" value="1" />
 				</form>
 			</section>
 		</div>
@@ -60,14 +77,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 export default {
 	data() {
 		return {
 			query: '',
 			loc: '',
 			isWarning: false,
-			hasRecentKey: true
+			hasRecentKey: true,
+			isScraping: false
 		}
 	},
 	computed: {
@@ -100,19 +117,23 @@ export default {
 				JSON.parse(localStorage.getItem('search'))
 			)
 		},
-		findAndScrape() {
+		findAndScrape(e) {
 			// check fields and save history
 			if (this.query.length || this.loc.length) {
+				this.isScraping = true
 				this.isWarning = false
 				this.hasRecentKey = true
 				this.saveSearchKey(this.query, this.loc)
 
+				// window.location.replace(
+				// 	`${window.location.origin}/job/result?q=${this.query}&loc=${this.loc}&tab=result&page=1`
+				// )
 				// move page
-				window.location.replace(
-					`${window.location.origin}/job/result?q=${this.query}&loc=${this.loc}&tab=result&page=1`
-				)
+				return true
 			} else {
+				this.isScraping = false
 				this.isWarning = true
+				e.preventDefault()
 			}
 		},
 		goToRecent() {
