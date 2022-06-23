@@ -51,7 +51,7 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 import JobResult from '~/components/job/JobResults.vue'
 import JobCard from '~/components/job/JobCard.vue'
 import HistoryCard from '~/components/job/HistoryCard.vue'
@@ -62,30 +62,17 @@ export default {
 		JobCard,
 		HistoryCard
 	},
-	async asyncData({ store, route }) {
-		const objParam = {
-			q: route.query.q,
-			loc: route.query.loc
-		}
-
-		const getJobs = store.getters['job/getJobs']
-		let jobs = getJobs()
-
-		if (!jobs.length) {
-			jobs = await store.dispatch('job/getJobs', objParam)
-		}
-
-		return {
-			jobs
-		}
-	},
 	data() {
 		return {
-			currPage: parseInt(this.$route.query.page) || 1,
-			scrapedData: 15
+			currPage: parseInt(this.$route.query.page) || 1
 		}
 	},
 	computed: {
+		...mapState({
+			jobs: state => {
+				return state.job.jobs
+			}
+		}),
 		isResultTab() {
 			return this.$route.query.tab === 'result'
 		},
@@ -97,18 +84,6 @@ export default {
 		},
 		jobsPerPage() {
 			return this.jobs[this.currPage - 1]
-		}
-	},
-	// watch: {
-	// 	page() {
-	// 		console.log(this.page)
-	// 	}
-	// },
-	watchQuery: ['q', 'loc'],
-	created() {
-		// handle kalo jobsnya gadapet dari asyncData, ambil dari vuex
-		if (!this.jobs || !this.jobs.length) {
-			this.jobs = this.$store.state.job.jobs
 		}
 	},
 	mounted() {

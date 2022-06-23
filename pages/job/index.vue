@@ -11,12 +11,7 @@
 				</h1>
 			</section>
 			<section class="site-section">
-				<form
-					action="/job/result"
-					method="GET"
-					class="form p-36"
-					@submit="findAndScrape"
-				>
+				<form class="form p-36" @submit.prevent="findAndScrape">
 					<div class="mb-16">
 						<label for="query" class="input-label">
 							What are u looking for?
@@ -42,7 +37,7 @@
 					<label v-show="isWarning" class="text-red d-block f-12">
 						Please fill out one of the following fields.
 					</label>
-					<label v-show="hasRecentKey" class="text-red d-block f-12">
+					<label v-show="!hasRecentKey" class="text-red d-block f-12">
 						You don't have any recent search.
 					</label>
 					<div class="form-action flex mt-48">
@@ -57,30 +52,26 @@
 						</button>
 						<button class="btn--thirdty">Find & Scrape</button>
 					</div>
-
-					<!-- old way form submitting -->
-					<input type="hidden" name="q" :value="query" />
-					<input type="hidden" name="loc" :value="loc" />
-					<input type="hidden" name="tab" value="result" />
-					<input type="hidden" name="page" value="1" />
 				</form>
 			</section>
 		</div>
-		<!-- <div class="wrapper">
-			<JobResults />
-		</div> -->
 	</main>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
 	data() {
 		return {
 			query: '',
 			loc: '',
 			isWarning: false,
-			hasRecentKey: false
+			hasRecentKey: true
 		}
+	},
+	computed: {
+		...mapGetters('job', ['getJobs'])
 	},
 	methods: {
 		reset() {
@@ -109,33 +100,43 @@ export default {
 				JSON.parse(localStorage.getItem('search'))
 			)
 		},
-		findAndScrape(e) {
+		findAndScrape() {
 			// check fields and save history
 			if (this.query.length || this.loc.length) {
 				this.isWarning = false
+				this.hasRecentKey = true
 				this.saveSearchKey(this.query, this.loc)
-				return true
+
+				// move page
+				window.location.replace(
+					`${window.location.origin}/job/result?q=${this.query}&loc=${this.loc}&tab=result&page=1`
+				)
 			} else {
 				this.isWarning = true
-				e.preventDefault()
 			}
 		},
 		goToRecent() {
 			const keyHistory = JSON.parse(localStorage.getItem('search'))
-			if (keyHistory && keyHistory.length) {
-				this.hasRecentKey = false
-				const keyObj = keyHistory[keyHistory.length - 1]
-				this.$router.push({
-					path: '/job/result',
-					query: {
-						q: keyObj.q,
-						loc: keyObj.loc,
-						tab: 'result',
-						page: 1
-					}
-				})
+			const jobs = this.getJobs()
+
+			if (keyHistory) {
+				if (keyHistory.length && jobs.length) {
+					this.hasRecentKey = true
+					const keyObj = keyHistory[keyHistory.length - 1]
+					this.$router.push({
+						path: '/job/result',
+						query: {
+							q: keyObj.q,
+							loc: keyObj.loc,
+							tab: 'result',
+							page: 1
+						}
+					})
+				} else {
+					this.hasRecentKey = false
+				}
 			} else {
-				this.hasRecentKey = true
+				this.hasRecentKey = false
 			}
 		}
 	}
