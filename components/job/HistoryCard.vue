@@ -49,13 +49,8 @@ export default {
 				loc
 			}
 			localStorage.setItem('recent_search', JSON.stringify(recentSearch))
-			this.$store.commit(
-				'history/SET_RECENTKEY',
-				JSON.parse(localStorage.getItem('recent_search'))
-			)
 		},
 		saveHistory(q, loc) {
-			// siapin object
 			const objItem = {
 				q,
 				loc
@@ -71,15 +66,11 @@ export default {
 
 			search.unshift(objItem)
 			localStorage.setItem('search', JSON.stringify(search))
-			this.$store.commit(
-				'history/SET_HISTORY',
-				JSON.parse(localStorage.getItem('search'))
-			)
 		},
 		findAndScrape(e) {
-			// check fields and save history
 			if (this.cardData.q.length || this.cardData.loc.length) {
-				this.saveRecentKey(this.cardData.q, this.cardData.loc)
+				this.seveRecentKey(this.cardData.q, this.cardData.loc)
+				this.saveHistory(this.cardData.q, this.cardData.loc)
 				return true
 			} else {
 				e.preventDefault()
