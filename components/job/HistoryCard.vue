@@ -1,32 +1,37 @@
 <template>
-	<button
-		class="btn-wrapper btn--ghost-primary pv-16 ph-24"
-		@click.prevent="scrape()"
-	>
-		<div class="bzg">
-			<div class="bzg_c" data-col="s6">
-				<div class="flex">
-					<div class="mr-24">
-						<span class="d-block">Keyword</span>
-						<span class="text-reg">{{
-							cardData.q.length ? cardData.q : '-'
-						}}</span>
+	<form action="/job/result" method="GET" @submit="findAndScrape">
+		<!-- old way form submitting -->
+		<input type="hidden" name="q" :value="cardData.q" />
+		<input type="hidden" name="loc" :value="cardData.loc" />
+		<input type="hidden" name="tab" value="result" />
+		<input type="hidden" name="page" value="1" />
+
+		<button class="btn-wrapper btn--ghost-primary pv-16 ph-24">
+			<div class="bzg">
+				<div class="bzg_c" data-col="s6">
+					<div class="flex">
+						<div class="mr-24">
+							<span class="d-block">Keyword</span>
+							<span class="text-reg">{{
+								cardData.q.length ? cardData.q : '-'
+							}}</span>
+						</div>
+						<div>
+							<span class="d-block">Location</span>
+							<span class="text-reg">{{
+								cardData.loc.length ? cardData.loc : '-'
+							}}</span>
+						</div>
 					</div>
-					<div>
-						<span class="d-block">Location</span>
-						<span class="text-reg">{{
-							cardData.loc.length ? cardData.loc : '-'
-						}}</span>
+				</div>
+				<div class="bzg_c" data-col="s6">
+					<div class="icon-wrapper flex h-end v-center">
+						<i class="bzi-caret-right bzi-1_5x"></i>
 					</div>
 				</div>
 			</div>
-			<div class="bzg_c" data-col="s6">
-				<div class="icon-wrapper flex h-end v-center">
-					<i class="bzi-caret-right bzi-1_5x"></i>
-				</div>
-			</div>
-		</div>
-	</button>
+		</button>
+	</form>
 </template>
 
 <script>
@@ -38,7 +43,18 @@ export default {
 		}
 	},
 	methods: {
-		saveSearchKey(q, loc) {
+		seveRecentKey(q, loc) {
+			const recentSearch = {
+				q,
+				loc
+			}
+			localStorage.setItem('recent_search', JSON.stringify(recentSearch))
+			this.$store.commit(
+				'history/SET_RECENTKEY',
+				JSON.parse(localStorage.getItem('recent_search'))
+			)
+		},
+		saveHistory(q, loc) {
 			// siapin object
 			const objItem = {
 				q,
@@ -53,22 +69,21 @@ export default {
 				search = JSON.parse(localStorage.getItem('search'))
 			}
 
-			search.push(objItem)
+			search.unshift(objItem)
 			localStorage.setItem('search', JSON.stringify(search))
 			this.$store.commit(
-				'SET_SEARCHKEY',
+				'history/SET_HISTORY',
 				JSON.parse(localStorage.getItem('search'))
 			)
 		},
-		scrape() {
+		findAndScrape(e) {
+			// check fields and save history
 			if (this.cardData.q.length || this.cardData.loc.length) {
-				this.saveSearchKey(this.cardData.q, this.cardData.loc)
+				this.saveRecentKey(this.cardData.q, this.cardData.loc)
+				return true
+			} else {
+				e.preventDefault()
 			}
-
-			// move page
-			window.location.replace(
-				`${window.location.origin}/job/result?q=${this.cardData.q}&loc=${this.cardData.loc}&tab=result&page=1`
-			)
 		}
 	}
 }
