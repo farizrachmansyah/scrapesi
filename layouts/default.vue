@@ -24,6 +24,16 @@ export default {
 				}
 			]
 		}
+	},
+	mounted() {
+		this.$store.commit(
+			'history/SET_HISTORY',
+			JSON.parse(localStorage.getItem('search'))
+		)
+		this.$store.commit(
+			'history/SET_RECENTKEY',
+			JSON.parse(localStorage.getItem('recent_search'))
+		)
 	}
 }
 </script>
