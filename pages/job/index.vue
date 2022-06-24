@@ -88,15 +88,29 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters('job', ['getJobs'])
+		...mapGetters({
+			getJobs: 'job/getJobs',
+			getHistory: 'history/getHistory',
+			getRecent: 'history/getRecent'
+		})
 	},
 	methods: {
 		reset() {
 			this.query = ''
 			this.loc = ''
 		},
-		saveSearchKey(q, loc) {
-			// siapin object
+		seveRecentKey(q, loc) {
+			const recentSearch = {
+				q,
+				loc
+			}
+			localStorage.setItem('recent_search', JSON.stringify(recentSearch))
+			this.$store.commit(
+				'history/SET_RECENTKEY',
+				JSON.parse(localStorage.getItem('recent_search'))
+			)
+		},
+		saveHistory(q, loc) {
 			const objItem = {
 				q,
 				loc
@@ -110,10 +124,10 @@ export default {
 				search = JSON.parse(localStorage.getItem('search'))
 			}
 
-			search.push(objItem)
+			search.unshift(objItem)
 			localStorage.setItem('search', JSON.stringify(search))
 			this.$store.commit(
-				'SET_SEARCHKEY',
+				'history/SET_HISTORY',
 				JSON.parse(localStorage.getItem('search'))
 			)
 		},
@@ -123,12 +137,9 @@ export default {
 				this.isScraping = true
 				this.isWarning = false
 				this.hasRecentKey = true
-				this.saveSearchKey(this.query, this.loc)
 
-				// window.location.replace(
-				// 	`${window.location.origin}/job/result?q=${this.query}&loc=${this.loc}&tab=result&page=1`
-				// )
-				// move page
+				this.seveRecentKey(this.query, this.loc)
+				this.saveHistory(this.query, this.loc)
 				return true
 			} else {
 				this.isScraping = false
@@ -137,25 +148,20 @@ export default {
 			}
 		},
 		goToRecent() {
-			const keyHistory = JSON.parse(localStorage.getItem('search'))
+			const recentKey = this.getRecent()
 			const jobs = this.getJobs()
 
-			if (keyHistory) {
-				if (keyHistory.length && jobs.length) {
-					this.hasRecentKey = true
-					const keyObj = keyHistory[keyHistory.length - 1]
-					this.$router.push({
-						path: '/job/result',
-						query: {
-							q: keyObj.q,
-							loc: keyObj.loc,
-							tab: 'result',
-							page: 1
-						}
-					})
-				} else {
-					this.hasRecentKey = false
-				}
+			if (recentKey && jobs.length) {
+				this.hasRecentKey = true
+				this.$router.push({
+					path: '/job/result',
+					query: {
+						q: recentKey.q,
+						loc: recentKey.loc,
+						tab: 'result',
+						page: 1
+					}
+				})
 			} else {
 				this.hasRecentKey = false
 			}
