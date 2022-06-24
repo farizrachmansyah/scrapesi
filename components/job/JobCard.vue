@@ -24,17 +24,51 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
 	border-radius: 16px;
 	border: 1px solid $fourty;
-	transition: all 0.3s;
+	transition: all 0.3s ease;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		max-height: 0;
+		border-radius: 16px;
+		background: $black;
+		opacity: 0;
+		transition: all 0.3s ease;
+	}
+	&::after {
+		content: 'Go to site';
+		position: absolute;
+		z-index: 2;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: $white;
+		font-weight: 600;
+		opacity: 0;
+		transition: all 0.1s ease 0.3s;
+	}
 
 	&:hover {
-		box-shadow: none;
+		border-color: transparent;
+
+		&::before {
+			opacity: 1;
+			max-height: 100%;
+		}
+		&::after {
+			opacity: 1;
+		}
 	}
 
 	& > *:last-child {
