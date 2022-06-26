@@ -47,7 +47,8 @@ export default {
 	plugins: [
 		{ src: './plugins/vue-slick-carousel.js' },
 		{ src: '~/plugins/helpers.js' },
-		{ src: '~/plugins/vuelidate' }
+		{ src: '~/plugins/vuelidate' },
+		{ src: '~/plugins/vue-json-excel.js' }
 	],
 
 	// Auto import components (https://go.nuxtjs.dev/config-components)

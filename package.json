@@ -26,6 +26,7 @@
     "nuxt-lazy-load": "^1.2.6",
     "puppeteer": "^14.1.1",
     "tls": "0.0.1",
+    "vue-json-excel": "^0.3.0",
     "vue-select": "^3.12.2",
     "vue-slick-carousel": "^1.0.6",
     "vuelidate": "^0.7.6"
