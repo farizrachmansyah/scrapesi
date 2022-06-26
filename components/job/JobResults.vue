@@ -19,11 +19,11 @@
 						</div>
 						<div class="select-custom__panel">
 							<div class="select-custom__opts">
-								<label for="xlsx" class="opts__item f-14">
+								<label for="xls" class="opts__item f-14">
 									<input
-										id="xlsx"
+										id="xls"
 										v-model="selectedExt"
-										value=".xlsx"
+										value="xls"
 										type="radio"
 										style="visibility: hidden; width: 0"
 										@change="
@@ -31,7 +31,7 @@
 											openDropdown = false
 										"
 									/>
-									<span>.xlsx</span>
+									<span>xls</span>
 								</label>
 							</div>
 							<div class="select-custom__opts">
@@ -39,7 +39,7 @@
 									<input
 										id="csv"
 										v-model="selectedExt"
-										value=".csv"
+										value="csv"
 										type="radio"
 										style="visibility: hidden; width: 0"
 										@change="
@@ -47,15 +47,31 @@
 											openDropdown = false
 										"
 									/>
-									<span>.csv</span>
+									<span>csv</span>
 								</label>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="option-btn">
-					<button class="btn--ghost-primary">Download This Page</button>
-					<button class="btn--primary">Download All</button>
+					<DownloadExcel
+						class="btn--ghost-primary"
+						:data="perPageData"
+						:fields="json_fields"
+						:type="selectedExt"
+						:name="getFileName((isPage = true))"
+					>
+						Download This Page
+					</DownloadExcel>
+					<DownloadExcel
+						class="btn--primary"
+						:data="allJobsData"
+						:fields="json_fields"
+						:type="selectedExt"
+						:name="getFileName((isPage = false))"
+					>
+						Download All
+					</DownloadExcel>
 				</div>
 			</div>
 		</div>
@@ -63,16 +79,76 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+	props: {
+		allPageData: {
+			type: Array,
+			default: () => []
+		},
+		perPageData: {
+			type: Array,
+			default: () => []
+		},
+		page: {
+			type: Number,
+			default: null
+		},
+		query: {
+			type: String,
+			default: null
+		},
+		location: {
+			type: String,
+			default: null
+		}
+	},
 	data() {
 		return {
 			openDropdown: false,
-			selectedExt: '.xlsx'
+			selectedExt: 'xls',
+			json_fields: {
+				'Job Title': 'jobTitle',
+				'Company Name': 'companyName',
+				Location: 'jobLocation',
+				'Time Status': 'time',
+				'Site Source': 'url'
+			},
+			json_meta: [
+				[
+					{
+						key: 'charset',
+						value: 'utf-8'
+					}
+				]
+			]
+		}
+	},
+	computed: {
+		...mapState({
+			jobs: state => {
+				return state.job.jobs
+			}
+		}),
+		allJobsData() {
+			const jobs = []
+			this.allPageData.forEach(page => {
+				jobs.push(...page)
+			})
+			return jobs
 		}
 	},
 	methods: {
 		setExt(ext) {
 			this.selectedExt = ext
+		},
+		getFileName(isPage) {
+			if (isPage) {
+				return `[List of Jobs] Page ${this.page} - ${this.query} in ${this.location}.${this.selectedExt}`
+			} else {
+				return `[List of Jobs] All Pages - ${this.query} in ${this.location}.${this.selectedExt}`
+			}
 		}
 	}
 }

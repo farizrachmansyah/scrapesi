@@ -75,8 +75,12 @@
 			</div>
 		</section>
 		<JobResult
-			v-if="jobs && jobs[0].length"
-			v-show="isResultTab"
+			v-if="jobs && jobs[0].length && isResultTab"
+			:per-page-data="jobsPerPage"
+			:page="currPage"
+			:query="$route.query.q"
+			:location="$route.query.loc"
+			:all-page-data="jobs"
 			class="result-component"
 		/>
 	</main>
