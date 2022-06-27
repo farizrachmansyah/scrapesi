@@ -79,8 +79,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
 	props: {
 		allPageData: {
@@ -126,11 +124,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapState({
-			jobs: state => {
-				return state.job.jobs
-			}
-		}),
 		allJobsData() {
 			const jobs = []
 			this.allPageData.forEach(page => {
