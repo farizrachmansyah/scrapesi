@@ -1,15 +1,14 @@
 import defaultMeta from './config/defaultMeta'
 import sitemapConfig from './config/sitemapConfig'
 
-const listENVS = {
-	BASE_URL: process.env.BASE_URL,
-	API_BASE_URL: process.env.API_URL
-}
+// const listENVS = {
+// 	BASE_URL: process.env.BASE_URL,
+// 	API_BASE_URL: process.env.API_URL
+// }
 /*
  ** Axios Instance
  */
 const AxiosInstance = {
-	baseURL: process.env.BASE_URL,
 	withCredentials: false,
 	retry: true,
 	headers: {
@@ -21,7 +20,7 @@ const AxiosInstance = {
 export default {
 	target: 'server',
 	// Duplicate .env
-	env: listENVS,
+	// env: listENVS,
 	// Global page headers (https://go.nuxtjs.dev/config-head)
 	head: {
 		title: 'Scrapesi',
@@ -69,11 +68,11 @@ export default {
 
 	// Axios module configuration (https://go.nuxtjs.dev/config-axios)
 	axios: {
-		proxy: true,
+		// proxy: true,
 		AxiosInstance
 	},
 
-	publicRuntimeConfig: listENVS,
+	// publicRuntimeConfig: listENVS,
 
 	privateRuntimeConfig: {
 		axios: {
@@ -81,16 +80,16 @@ export default {
 		}
 	},
 
-	proxy: {
-		'/base': {
-			target: process.env.BASE_URL,
-			pathRewrite: { '^/base/': '' },
-			changeOrigin: true,
-			onProxyReq(request) {
-				request.setHeader('origin', process.env.BASE_URL)
-			}
-		}
-	},
+	// proxy: {
+	// 	'/base': {
+	// 		target: process.env.BASE_URL,
+	// 		pathRewrite: { '^/base/': '' },
+	// 		changeOrigin: true,
+	// 		onProxyReq(request) {
+	// 			request.setHeader('origin', process.env.BASE_URL)
+	// 		}
+	// 	}
+	// },
 
 	// AUTH
 	auth: {
