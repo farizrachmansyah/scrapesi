@@ -19,7 +19,7 @@ const AxiosInstance = {
 }
 
 export default {
-	target: 'server',
+	target: 'static',
 	// Duplicate .env
 	env: listENVS,
 	// Global page headers (https://go.nuxtjs.dev/config-head)
