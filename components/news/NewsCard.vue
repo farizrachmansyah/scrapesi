@@ -124,8 +124,10 @@ export default {
 	height: 100%;
 }
 
-.news-img {
+.responsive-media {
 	border-radius: 16px;
+}
+.news-img {
 	transition: transform 0.3s ease;
 }
 
