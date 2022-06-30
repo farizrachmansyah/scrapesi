@@ -83,13 +83,15 @@ export default {
 	methods: {
 		async updateData() {
 			this.isUpdateData = true
-			const API_URL =
-				'https://newsapi.org/v2/top-headlines?country=id&apiKey=7e9507038e2e450a9749d80784a468bc'
+			const API_KEY = '7e9507038e2e450a9749d80784a468bc'
+			const API_URL = 'https://newsapi.org/v2/everything'
+			const API_PARAM_DOMAINS = ['techcrunch.com', 'thenextweb.com']
 
 			await this.$axios
 				.get(API_URL, {
 					params: {
-						category: this.tabActive
+						domains: API_PARAM_DOMAINS.toString(),
+						apiKey: API_KEY
 					}
 				})
 				.then(res => {
