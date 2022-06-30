@@ -33,7 +33,7 @@
 				</ul>
 			</div>
 
-			<div v-if="$fetchState.pending" class="text-center p-24">
+			<div v-if="$fetchState.pending || isUpdateData" class="text-center p-24">
 				<span class="spinner"></span>
 			</div>
 			<div v-else class="bzg">
@@ -60,7 +60,8 @@ export default {
 	data() {
 		return {
 			news: [],
-			tabActive: 'business'
+			tabActive: 'business',
+			isUpdateData: false
 		}
 	},
 	async fetch() {
@@ -81,6 +82,7 @@ export default {
 	},
 	methods: {
 		async updateData() {
+			this.isUpdateData = true
 			const API_URL =
 				'https://newsapi.org/v2/top-headlines?country=id&apiKey=7e9507038e2e450a9749d80784a468bc'
 
@@ -93,9 +95,11 @@ export default {
 				.then(res => {
 					if (res.status === 200) {
 						this.news = res.data.articles
+						this.isUpdateData = false
 					}
 				})
 				.catch(err => {
+					this.isUpdateData = false
 					// eslint-disable-next-line no-console
 					console.log(err)
 				})

@@ -1,6 +1,6 @@
 <template>
 	<div v-if="slug === 0" class="headline bg-light">
-		<nuxt-link :to="detailUrl" class="d-block">
+		<nuxt-link :to="detailUrl" class="link-wrapper d-block">
 			<div class="headline-wrapper bzg">
 				<div class="bzg_c mb-0" data-col="s12m6">
 					<div class="headline-image">
@@ -26,7 +26,7 @@
 		</nuxt-link>
 	</div>
 
-	<nuxt-link v-else :to="detailUrl" class="news-card">
+	<nuxt-link v-else :to="detailUrl" class="link-wrapper news-card">
 		<div class="mb-24">
 			<div class="responsive-media r-16-9">
 				<img :src="cardData.urlToImage" alt="News Image" class="news-img" />
@@ -126,10 +126,17 @@ export default {
 
 .news-img {
 	border-radius: 16px;
+	transition: transform 0.3s ease;
 }
 
 .news-date {
 	display: block;
 	line-height: 1;
+}
+
+.link-wrapper:hover {
+	.news-img {
+		transform: scale(1.2);
+	}
 }
 </style>
