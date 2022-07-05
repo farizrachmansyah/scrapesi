@@ -4,17 +4,17 @@ let browser, page
 class Jobs {
 	static async initPage() {
 		browser = await pptr.launch({
-			headless: false
-			// args: [
-			// 	'--no-sandbox',
-			// 	'--disable-setuid-sandbox',
-			// 	'--disable-dev-shm-usage',
-			// 	'--disable-accelerated-2d-canvas',
-			// 	'--no-first-run',
-			// 	'--no-zygote',
-			// 	'--single-process', // <- this one doesn't works in Windows
-			// 	'--disable-gpu'
-			// ]
+			headless: false,
+			args: [
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--disable-dev-shm-usage',
+				'--disable-accelerated-2d-canvas',
+				'--no-first-run',
+				'--no-zygote',
+				'--single-process', // <- this one doesn't works in Windows
+				'--disable-gpu'
+			]
 		})
 		page = await browser.newPage()
 	}
@@ -26,7 +26,14 @@ class Jobs {
 
 		while (true) {
 			await page.goto(url, { waitUntil: 'networkidle2' })
-			await page.waitForSelector('#mosaic-provider-jobcards').catch(() => {})
+			await page
+				.waitForSelector('#mosaic-provider-jobcards')
+				.catch(async () => {
+					// kalo selectornya gaketemu berarti gaada hasil
+					// close and return
+					await browser.close()
+					return allJobs
+				})
 
 			// get all jobcard perpage
 			const jobPerPage = await page.$$eval(
