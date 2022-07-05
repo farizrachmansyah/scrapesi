@@ -84,11 +84,10 @@ export default {
 		async updateData() {
 			this.isUpdateData = true
 			const API_KEY = '7e9507038e2e450a9749d80784a468bc'
-			const API_URL = 'https://newsapi.org/v2/everything'
 			const API_PARAM_DOMAINS = ['techcrunch.com', 'thenextweb.com']
 
 			await this.$axios
-				.get(API_URL, {
+				.get('/v2/everything', {
 					params: {
 						domains: API_PARAM_DOMAINS.toString(),
 						apiKey: API_KEY
@@ -97,8 +96,8 @@ export default {
 				.then(res => {
 					if (res.status === 200) {
 						this.news = res.data.articles
-						this.isUpdateData = false
 					}
+					this.isUpdateData = false
 				})
 				.catch(err => {
 					this.isUpdateData = false
