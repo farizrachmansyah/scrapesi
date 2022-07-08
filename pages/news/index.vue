@@ -87,7 +87,7 @@ export default {
 			const API_PARAM_DOMAINS = ['techcrunch.com', 'thenextweb.com']
 
 			await this.$axios
-				.get('/v2/everything', {
+				.get('api/v2/everything', {
 					params: {
 						domains: API_PARAM_DOMAINS.toString(),
 						apiKey: API_KEY
