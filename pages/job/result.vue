@@ -40,7 +40,7 @@
 		</section>
 		<section class="container">
 			<div v-if="isResultTab" class="pv-24">
-				<div v-if="jobs && jobs[0].length" class="bzg mb-48">
+				<div v-if="jobs.length" class="bzg mb-48">
 					<div
 						v-for="(data, index) in jobsPerPage"
 						:key="index"
@@ -75,7 +75,7 @@
 			</div>
 		</section>
 		<JobResult
-			v-if="jobs && jobs[0].length && isResultTab"
+			v-if="jobs.length && isResultTab"
 			:per-page-data="jobsPerPage"
 			:page="currPage"
 			:query="$route.query.q"
