@@ -5,16 +5,9 @@ class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
 			headless: false,
-			args: [
-				'--no-sandbox',
-				'--disable-setuid-sandbox',
-				'--disable-dev-shm-usage',
-				'--disable-accelerated-2d-canvas',
-				'--no-first-run',
-				'--no-zygote',
-				'--single-process', // <- this one doesn't works in Windows
-				'--disable-gpu'
-			]
+			ignoreHTTPSErrors: true,
+			defaultViewport: null,
+			args: ['--no-sandbox']
 		})
 		try {
 			return await fn(browser)
@@ -25,6 +18,12 @@ class Jobs {
 
 	static withPage = browser => async fn => {
 		const page = await browser.newPage()
+
+		// disable image request (biar lebih cepet loadnya)
+		await page.setRequestInterception(true)
+		page.on('request', request => {
+			request.resourceType() === 'image' ? request.abort() : request.continue()
+		})
 		try {
 			return await fn(page)
 		} finally {
@@ -33,18 +32,16 @@ class Jobs {
 	}
 
 	static async scrapeJob(query, loc) {
-		const targets = ['indeed', 'jobstreet']
+		const targets = ['indeed', 'jobsid']
 		const finalResults = []
 
 		const results = await this.withBrowser(async browser => {
 			return Promise.all(
 				targets.map(async target => {
 					return this.withPage(browser)(async page => {
-						if (target === 'indeed') {
-							return await this.scrapeFromIndeed(query, loc, page)
-						} else {
-							return await this.scrapeFromJobStreet(query, loc, page)
-						}
+						return target === 'indeed'
+							? await this.scrapeFromIndeed(query, loc, page)
+							: await this.scrapeFromJobsid(query, loc, page)
 					})
 				})
 			)
@@ -71,8 +68,10 @@ class Jobs {
 		let allJobs = []
 
 		while (true) {
-			await page.goto(baseUrl, { waitUntil: 'networkidle2' })
-			await page.waitForSelector('#mosaic-provider-jobcards').catch(() => {})
+			await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
+			await page.waitForSelector('#mosaic-provider-jobcards').catch(() => {
+				return allJobs
+			})
 
 			const jobPerPage = await page.$$eval(
 				'.jobsearch-ResultsList .tapItem.result .job_seen_beacon',
@@ -109,40 +108,65 @@ class Jobs {
 		return allJobs
 	}
 
-	static async scrapeFromJobStreet(query, loc, page) {
-		const sanitizeLoc = loc.toLowerCase() === 'jakarta' ? 'jakarta raya' : loc
-		let baseUrl = `https://www.jobstreet.co.id/id/job-search/${query}-jobs-in-${sanitizeLoc}/`
+	static async scrapeFromJobsid(query, loc, page) {
+		const sanitizeLoc = loc.toLowerCase() === 'jakarta' ? 'dki jakarta' : loc
+		let baseUrl = `https://www.jobs.id/lowongan-kerja-${query}-di-${sanitizeLoc}?kata-kunci=${query}`
 		let allJobs = []
+		let pageCount = 1
 
 		while (true) {
-			await page.goto(baseUrl, { waitUntil: 'networkidle2' })
-			await page.waitForSelector('#jobList').catch(() => {})
+			await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
+			await page.waitForSelector('#jobs-panel').catch(() => {
+				return allJobs
+			})
 
 			const jobPerPage = await page.$$eval(
-				'#jobList > div.sx2jih0.z0qC4_0 > div:nth-child(2) > div > div:nth-child(1) > div > div > article > div > div > div.sx2jih0.zcydq876.zcydq866.zcydq896.zcydq886.zcydq8n.zcydq856.zcydq8f6.zcydq8eu',
+				'#jobs-panel > .panel-body > #job-ads-container > div',
 				cards => {
 					return cards.map(card => ({
-						jobTitle: card.querySelector('.sx2jih0 h1 > a > div > span')
-							.textContent,
-						companyName: '',
-						jobLocation: '',
-						time: '',
-						url: ''
+						jobTitle: card.querySelector(
+							'div:nth-child(1) > div:nth-child(2) > h3 > a'
+						).textContent,
+						companyName: card.querySelector(
+							'div:nth-child(1) > div:nth-child(2) > p:nth-child(2) > a'
+						).textContent,
+						jobLocation: card
+							.querySelector(
+								'div:nth-child(1) > div:nth-child(2) > p:nth-child(2) > span.location'
+							)
+							.textContent.split(' ')[0],
+						time: card.querySelector(
+							'div:nth-child(1) > div:nth-child(2) > p.text-muted'
+						).textContent,
+						url: card
+							.querySelector('div:nth-child(1) > div:nth-child(2) > h3 > a')
+							.getAttribute('href')
 					}))
 				}
 			)
 			allJobs = [...allJobs, ...jobPerPage]
 
 			try {
-				baseUrl = await page.$eval(
-					'#jobList > div.sx2jih0.z0qC4_0 > div.sx2jih0.zcydq8bm.zcydq8p > div > a:nth-child(3)',
-					el => {
-						return el.href
-					}
-				)
+				if (pageCount === 1) {
+					baseUrl = await page.$eval(
+						'#pagination-container > ul > li:nth-child(5) > a',
+						el => {
+							return el.href
+						}
+					)
+				} else {
+					baseUrl = await page.$eval(
+						'#pagination-container > ul > li:nth-child(7) > a',
+						el => {
+							return el.href
+						}
+					)
+				}
 			} catch {
 				break
 			}
+
+			pageCount++
 		}
 
 		return allJobs
