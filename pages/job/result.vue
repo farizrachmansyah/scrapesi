@@ -42,9 +42,10 @@
 			<div v-if="isResultTab" class="pv-24">
 				<div v-if="jobs.length">
 					<p class="mb-24">
-						Results for <span class="text-bold">{{ $route.query.q }}</span> jobs
-						in <span class="text-bold">{{ $route.query.loc }}</span> and
-						<span class="text-bold">related data</span>.
+						Found {{ totalJobs }} vacancies for
+						<span class="text-bold">{{ $route.query.q }}</span> positions in
+						<span class="text-bold">{{ $route.query.loc }}</span> and
+						<span class="text-bold"> others related data</span>.
 					</p>
 					<div class="bzg mb-48">
 						<div
@@ -127,7 +128,14 @@ export default {
 			return this.jobs.length
 		},
 		jobsPerPage() {
-			return this.jobs[this.currPage - 1]
+			return this.jobs.length ? this.jobs[this.currPage - 1] : []
+		},
+		totalJobs() {
+			let counter = 0
+			this.jobs.forEach(page => {
+				counter += page.length
+			})
+			return counter
 		}
 	},
 	methods: {
