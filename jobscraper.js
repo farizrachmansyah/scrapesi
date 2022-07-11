@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable require-await */
 const pptr = require('puppeteer')
 
@@ -7,7 +8,12 @@ class Jobs {
 			headless: false,
 			ignoreHTTPSErrors: true,
 			defaultViewport: null,
-			args: ['--no-sandbox']
+			// args documentation (https://peter.sh/experiments/chromium-command-line-switches/)
+			args: [
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--disable-dev-shm-usage'
+			]
 		})
 		try {
 			return await fn(browser)
@@ -39,9 +45,15 @@ class Jobs {
 			return Promise.all(
 				targets.map(async target => {
 					return this.withPage(browser)(async page => {
-						return target === 'indeed'
-							? await this.scrapeFromIndeed(query, loc, page)
-							: await this.scrapeFromJobsid(query, loc, page)
+						try {
+							if (target === 'indeed') {
+								return await this.scrapeFromIndeed(query, loc, page)
+							} else {
+								return await this.scrapeFromJobsid(query, loc, page)
+							}
+						} catch (err) {
+							console.error(err)
+						}
 					})
 				})
 			)
@@ -73,23 +85,27 @@ class Jobs {
 				return allJobs
 			})
 
-			const jobPerPage = await page.$$eval(
-				'.jobsearch-ResultsList .tapItem.result .job_seen_beacon',
-				cards => {
-					return cards.map(card => ({
-						jobTitle: card.querySelector('h2.jobTitle > a > span').title,
-						companyName: card.querySelector('.companyInfo .companyName')
-							.textContent,
-						jobLocation: card.querySelector('.companyLocation').textContent,
-						time: card.querySelector('.underShelfFooter .date').lastChild
-							.nodeValue,
-						url: `https://id.indeed.com${card
-							.querySelector('h2.jobTitle > a')
-							.getAttribute('href')}`
-					}))
-				}
-			)
-			allJobs = [...allJobs, ...jobPerPage]
+			const jobsPerPage = await page
+				.$$eval(
+					'.jobsearch-ResultsList .tapItem.result .job_seen_beacon',
+					cards => {
+						return cards.map(card => ({
+							jobTitle: card.querySelector('h2.jobTitle > a > span').title,
+							companyName: card.querySelector('.companyInfo .companyName')
+								.textContent,
+							jobLocation: card.querySelector('.companyLocation').textContent,
+							time: card.querySelector('.underShelfFooter .date').lastChild
+								.nodeValue,
+							url: `https://id.indeed.com${card
+								.querySelector('h2.jobTitle > a')
+								.getAttribute('href')}`
+						}))
+					}
+				)
+				.catch(err => {
+					console.error(err)
+				})
+			allJobs = [...allJobs, ...jobsPerPage]
 
 			try {
 				baseUrl = await page.$eval(
@@ -120,15 +136,12 @@ class Jobs {
 				return allJobs
 			})
 
-			const jobPerPage = await page.$$eval(
-				'#jobs-panel > .panel-body > #job-ads-container > div',
-				cards => {
+			const jobsPerPage = await page
+				.$$eval('#job-ads-container > div', cards => {
 					return cards.map(card => ({
-						jobTitle: card.querySelector(
-							'div:nth-child(1) > div:nth-child(2) > h3 > a'
-						).textContent,
+						jobTitle: card.querySelector('h3 > a.bold').textContent,
 						companyName: card.querySelector(
-							'div:nth-child(1) > div:nth-child(2) > p:nth-child(2) > a'
+							'div:nth-child(1) > div:nth-child(2) > p:nth-child(2) > *:nth-child(1)'
 						).textContent,
 						jobLocation: card
 							.querySelector(
@@ -138,13 +151,14 @@ class Jobs {
 						time: card.querySelector(
 							'div:nth-child(1) > div:nth-child(2) > p.text-muted'
 						).textContent,
-						url: card
-							.querySelector('div:nth-child(1) > div:nth-child(2) > h3 > a')
-							.getAttribute('href')
+						url: card.querySelector('h3 > a.bold').getAttribute('href')
+						// companyName: ''
 					}))
-				}
-			)
-			allJobs = [...allJobs, ...jobPerPage]
+				})
+				.catch(err => {
+					console.error(err)
+				})
+			allJobs = [...allJobs, ...jobsPerPage]
 
 			try {
 				if (pageCount === 1) {
