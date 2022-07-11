@@ -5,7 +5,7 @@ const pptr = require('puppeteer')
 class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
-			headless: false,
+			headless: true,
 			ignoreHTTPSErrors: true,
 			defaultViewport: null,
 			// args documentation (https://peter.sh/experiments/chromium-command-line-switches/)
