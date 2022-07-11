@@ -38,7 +38,10 @@
 				</ul>
 			</div>
 		</section>
-		<section class="container">
+		<section
+			:class="{ 'data-not-found': !jobs.length && isResultTab }"
+			class="container"
+		>
 			<div v-if="isResultTab" class="pv-24">
 				<div v-if="jobs.length">
 					<p class="mb-24">
@@ -58,10 +61,16 @@
 						</div>
 					</div>
 				</div>
-				<div v-else>
-					<div class="not-found">
-						<h1>Aww.. we're very sorry,</h1>
-						<h1>data not found &#128532;</h1>
+				<div v-else class="not-found flex v-center f-space-between">
+					<div class="not-found-image">
+						<img src="/assets/empty-scrape.svg" alt="Empty Illustration" />
+					</div>
+					<div class="not-found-text">
+						<h1 class="title">Oops!</h1>
+						<p class="desc mb-0">
+							The data you are looking for cannot be found. Please try again
+							later or use another keyword.
+						</p>
 					</div>
 				</div>
 				<Pagination
@@ -233,7 +242,52 @@ export default {
 }
 
 .not-found {
-	padding: 64px 0;
+	flex-direction: column;
 	text-align: center;
+
+	@media #{$medium} {
+		flex-direction: row;
+		& > * {
+			flex: 1;
+		}
+	}
+
+	&-image {
+		img {
+			width: 60%;
+			max-width: 300px;
+		}
+	}
+
+	&-text {
+		margin-top: 24px;
+
+		@media #{$medium} {
+			margin-top: 0;
+		}
+
+		.title {
+			color: $black;
+			font-size: 24px;
+
+			@media #{$medium} {
+				font-size: 48px;
+			}
+		}
+		.desc {
+			color: $grey;
+			font-size: 16px;
+			font-weight: 400;
+
+			@media #{$medium} {
+				font-size: 24px;
+			}
+		}
+	}
+}
+
+.container.data-not-found {
+	margin-top: auto;
+	margin-bottom: auto;
 }
 </style>
