@@ -55,13 +55,7 @@
 						<button class="btn--ghost-thirdty" @click.prevent="goToRecent()">
 							Recent Results
 						</button>
-						<button class="btn--thirdty">
-							<div v-if="isScraping" class="flex v-center">
-								<span class="spinner-small"></span>
-								<span class="ml-12">Scraping</span>
-							</div>
-							<span v-else>Find & Scrape</span>
-						</button>
+						<button class="btn--thirdty">Find & Scrape</button>
 					</div>
 
 					<!-- old way form submitting -->
@@ -83,8 +77,7 @@ export default {
 			query: '',
 			loc: '',
 			isWarning: false,
-			hasRecentKey: true,
-			isScraping: false
+			hasRecentKey: true
 		}
 	},
 	computed: {
@@ -134,7 +127,7 @@ export default {
 		findAndScrape(e) {
 			// check fields and save history
 			if (this.query.length || this.loc.length) {
-				this.isScraping = true
+				this.$nuxt.$emit('startScrape', true)
 				this.isWarning = false
 				this.hasRecentKey = true
 
@@ -142,7 +135,6 @@ export default {
 				this.saveHistory(this.query, this.loc)
 				return true
 			} else {
-				this.isScraping = false
 				this.isWarning = true
 				e.preventDefault()
 			}
