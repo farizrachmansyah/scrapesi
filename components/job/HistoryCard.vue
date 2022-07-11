@@ -26,7 +26,7 @@
 				</div>
 				<div class="bzg_c" data-col="s6">
 					<div class="icon-wrapper flex h-end v-center">
-						<i class="bzi-caret-right bzi-1_5x"></i>
+						<i class="bzi-angle-right bzi-1_5x"></i>
 					</div>
 				</div>
 			</div>
