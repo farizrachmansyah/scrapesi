@@ -20,13 +20,13 @@
 									class="btn--transparent"
 									@click.prevent="openTabOption = !openTabOption"
 								>
-									<span class="text-bold">:</span>
+									<span class="bzi-filter text-bold"></span>
 								</button>
 							</div>
 							<div class="select-custom__panel">
 								<div class="select-custom__opts">
 									<button
-										class="opts__item btn--transparent"
+										class="opts__item btn--ghost-primary f-12"
 										@click.prevent="clearHistory()"
 									>
 										Clear History
@@ -203,7 +203,7 @@ export default {
 	right: 0;
 	position: absolute;
 	transform: translate(0, 95%);
-	width: 140px;
+	width: 110px;
 
 	.opts__item {
 		width: 100%;
@@ -213,7 +213,7 @@ export default {
 
 .select-custom.is-active {
 	.select-custom__panel {
-		transform: translate(0, 115%);
+		transform: translate(0, 125%);
 	}
 }
 

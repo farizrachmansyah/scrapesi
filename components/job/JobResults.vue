@@ -55,7 +55,7 @@
 				</div>
 				<div class="option-btn">
 					<DownloadExcel
-						class="btn--ghost-primary"
+						class="btn--ghost-primary mr-12"
 						:data="perPageData"
 						:fields="json_fields"
 						:type="selectedExt"
