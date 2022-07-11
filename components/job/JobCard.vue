@@ -1,5 +1,5 @@
 <template>
-	<a :href="cardData.url" target="_blank" class="card p-12">
+	<a :href="cardData.url ? cardData.url : ''" target="_blank" class="card p-12">
 		<div class="mb-48">
 			<h1 class="job-name">{{ cardData.jobTitle }}</h1>
 			<h3 class="comp-name">{{ cardData.companyName }}</h3>
@@ -42,7 +42,7 @@ export default {
 		height: 100%;
 		max-height: 0;
 		border-radius: 16px;
-		background: $black;
+		background: rgba($black, 0.75);
 		opacity: 0;
 		transition: all 0.3s ease;
 	}

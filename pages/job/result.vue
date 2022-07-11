@@ -40,14 +40,21 @@
 		</section>
 		<section class="container">
 			<div v-if="isResultTab" class="pv-24">
-				<div v-if="jobs.length" class="bzg mb-48">
-					<div
-						v-for="(data, index) in jobsPerPage"
-						:key="index"
-						class="bzg_c"
-						data-col="s6m4"
-					>
-						<JobCard :card-data="data" />
+				<div v-if="jobs.length">
+					<p class="mb-24">
+						Results for <span class="text-bold">{{ $route.query.q }}</span> jobs
+						in <span class="text-bold">{{ $route.query.loc }}</span> and
+						<span class="text-bold">related data</span>.
+					</p>
+					<div class="bzg mb-48">
+						<div
+							v-for="(data, index) in jobsPerPage"
+							:key="index"
+							class="bzg_c"
+							data-col="s6m4"
+						>
+							<JobCard :card-data="data" />
+						</div>
 					</div>
 				</div>
 				<div v-else>
