@@ -5,6 +5,15 @@
 				<ul class="list-nostyle">
 					<li>
 						<button
+							:class="{ 'tab-active': tabActive === 'jobs' }"
+							class="btn-tab btn--transparent"
+							@click="changeTab('jobs')"
+						>
+							Career
+						</button>
+					</li>
+					<li>
+						<button
 							:class="{ 'tab-active': tabActive === 'business' }"
 							class="btn-tab btn--transparent"
 							@click="changeTab('business')"
@@ -19,15 +28,6 @@
 							@click="changeTab('technology')"
 						>
 							Technology
-						</button>
-					</li>
-					<li>
-						<button
-							:class="{ 'tab-active': tabActive === 'entertainment' }"
-							class="btn-tab btn--transparent"
-							@click="changeTab('entertainment')"
-						>
-							Entertainment
 						</button>
 					</li>
 				</ul>
@@ -60,7 +60,7 @@ export default {
 	data() {
 		return {
 			news: [],
-			tabActive: 'business',
+			tabActive: 'jobs',
 			isUpdateData: false
 		}
 	},
@@ -84,11 +84,18 @@ export default {
 		async updateData() {
 			this.isUpdateData = true
 			const API_KEY = '7e9507038e2e450a9749d80784a468bc'
-			const API_PARAM_DOMAINS = ['techcrunch.com', 'thenextweb.com']
+			const API_PARAM_DOMAINS = [
+				'techcrunch.com',
+				// 'thenextweb.com',
+				'bloomberg.com'
+				// 'nytimes.com'
+			]
+			const API_PARAM_QUERY = this.tabActive
 
 			await this.$axios
 				.get('api/v2/everything', {
 					params: {
+						q: API_PARAM_QUERY,
 						domains: API_PARAM_DOMAINS.toString(),
 						apiKey: API_KEY
 					}
@@ -96,6 +103,11 @@ export default {
 				.then(res => {
 					if (res.status === 200) {
 						this.news = res.data.articles
+						this.news.forEach(data => {
+							if (!data.urlToImage) {
+								data.urlToImage = 'https://via.placeholder.com/300'
+							}
+						})
 					}
 					this.isUpdateData = false
 				})

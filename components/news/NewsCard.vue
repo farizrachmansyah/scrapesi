@@ -1,6 +1,6 @@
 <template>
 	<div v-if="slug === 0" class="headline bg-light">
-		<nuxt-link :to="detailUrl" class="link-wrapper d-block">
+		<a :href="cardData.url" target="_blank" class="link-wrapper d-block">
 			<div class="headline-wrapper bzg">
 				<div class="bzg_c mb-0" data-col="s12m6">
 					<div class="headline-image">
@@ -23,10 +23,10 @@
 					</span>
 				</div>
 			</div>
-		</nuxt-link>
+		</a>
 	</div>
 
-	<nuxt-link v-else :to="detailUrl" class="link-wrapper news-card">
+	<a v-else :href="cardData.url" target="_blank" class="link-wrapper news-card">
 		<div class="mb-24">
 			<div class="responsive-media r-16-9">
 				<img :src="cardData.urlToImage" alt="News Image" class="news-img" />
@@ -41,7 +41,7 @@
 				{{ cardData.title }}
 			</span>
 		</div>
-	</nuxt-link>
+	</a>
 </template>
 
 <script>
@@ -62,9 +62,6 @@ export default {
 		}
 	},
 	computed: {
-		detailUrl() {
-			return this.path + this.slug
-		},
 		publishDate() {
 			const date = new Date(this.cardData.publishedAt)
 			const options = {
