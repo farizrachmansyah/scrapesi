@@ -1,12 +1,16 @@
 <template>
 	<div v-if="slug === 0" class="headline bg-light">
-		<a :href="cardData.url" target="_blank" class="link-wrapper d-block">
+		<a
+			:href="cardData['url-href']"
+			target="_blank"
+			class="link-wrapper d-block"
+		>
 			<div class="headline-wrapper bzg">
 				<div class="bzg_c mb-0" data-col="s12m6">
 					<div class="headline-image">
 						<div class="responsive-media r-16-9">
 							<img
-								:src="cardData.urlToImage"
+								:src="cardData['image-src']"
 								alt="News Image"
 								class="news-img"
 							/>
@@ -15,8 +19,7 @@
 				</div>
 				<div class="bzg_c mb-0" data-col="s12m6">
 					<div class="text-grey mb-8">
-						<span class="news-date">{{ publishDate }}</span>
-						<span v-if="cardData.author">{{ cardData.author }}</span>
+						<span class="news-date">{{ cardData.time }}</span>
 					</div>
 					<span class="text-bold f-30">
 						{{ cardData.title }}
@@ -26,16 +29,20 @@
 		</a>
 	</div>
 
-	<a v-else :href="cardData.url" target="_blank" class="link-wrapper news-card">
+	<a
+		v-else
+		:href="cardData['url-href']"
+		target="_blank"
+		class="link-wrapper news-card"
+	>
 		<div class="mb-24">
 			<div class="responsive-media r-16-9">
-				<img :src="cardData.urlToImage" alt="News Image" class="news-img" />
+				<img :src="cardData['image-src']" alt="News Image" class="news-img" />
 			</div>
 		</div>
 		<div>
 			<div class="text-grey mb-8">
-				<span class="news-date f-14">{{ publishDate }}</span>
-				<span v-if="cardData.author" class="f-14">{{ cardData.author }}</span>
+				<span class="news-date f-14">{{ cardData.time }}</span>
 			</div>
 			<span class="text-bold">
 				{{ cardData.title }}
@@ -52,27 +59,23 @@ export default {
 			type: Object,
 			default: null
 		},
-		path: {
-			type: String,
-			default: ''
-		},
 		slug: {
 			type: Number,
 			default: 0
 		}
-	},
-	computed: {
-		publishDate() {
-			const date = new Date(this.cardData.publishedAt)
-			const options = {
-				weekday: 'long',
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric'
-			}
-			return date.toLocaleDateString('in', options)
-		}
 	}
+	// computed: {
+	// 	publishDate() {
+	// 		const date = new Date(this.cardData.publishedAt)
+	// 		const options = {
+	// 			weekday: 'long',
+	// 			year: 'numeric',
+	// 			month: 'long',
+	// 			day: 'numeric'
+	// 		}
+	// 		return date.toLocaleDateString('in', options)
+	// 	}
+	// }
 }
 </script>
 
