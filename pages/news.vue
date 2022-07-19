@@ -1,49 +1,19 @@
 <template>
-	<main class="site-main">
+	<main :class="{ fetching: $fetchState.pending }" class="site-main">
 		<div class="container">
-			<div class="tab-nav pt-24 mb-24">
-				<ul class="list-nostyle">
-					<li>
-						<button
-							:class="{ 'tab-active': tabActive === 'jobs' }"
-							class="btn-tab btn--transparent"
-							@click="changeTab('jobs')"
-						>
-							Career
-						</button>
-					</li>
-					<li>
-						<button
-							:class="{ 'tab-active': tabActive === 'business' }"
-							class="btn-tab btn--transparent"
-							@click="changeTab('business')"
-						>
-							Business
-						</button>
-					</li>
-					<li>
-						<button
-							:class="{ 'tab-active': tabActive === 'technology' }"
-							class="btn-tab btn--transparent"
-							@click="changeTab('technology')"
-						>
-							Technology
-						</button>
-					</li>
-				</ul>
-			</div>
-
-			<div v-if="$fetchState.pending || isUpdateData" class="text-center p-24">
+			<div v-if="$fetchState.pending" class="spinner-wrapper fetching p-24">
 				<span class="spinner"></span>
 			</div>
-			<div v-else class="bzg">
-				<div
-					v-for="(item, i) in news"
-					:key="`news-${i}`"
-					class="bzg_c"
-					:data-col="i === 0 ? 's12' : 'm6l4'"
-				>
-					<NewsCard :card-data="item" path="/news/" :slug="i" />
+			<div v-else class="pv-24">
+				<div class="bzg">
+					<div
+						v-for="(item, i) in analytics"
+						:key="`news-${i}`"
+						class="bzg_c"
+						:data-col="i === 0 ? 's12' : 'm6l4'"
+					>
+						<NewsCard :card-data="item" :slug="i" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -59,15 +29,12 @@ export default {
 	},
 	data() {
 		return {
-			news: [],
-			tabActive: 'jobs',
-			isUpdateData: false
+			analytics: []
 		}
 	},
 	async fetch() {
-		await this.updateData()
+		await this.getData()
 	},
-	fetchOnServer: false,
 	head() {
 		return {
 			...this.$SEOMeta({
@@ -75,56 +42,101 @@ export default {
 			})
 		}
 	},
-	watch: {
-		tabActive() {
-			this.updateData()
-		}
-	},
 	methods: {
-		async updateData() {
-			this.isUpdateData = true
-			const API_KEY = '7e9507038e2e450a9749d80784a468bc'
-			const API_PARAM_DOMAINS = [
-				'techcrunch.com',
-				// 'thenextweb.com',
-				'bloomberg.com'
-				// 'nytimes.com'
-			]
-			const API_PARAM_QUERY = this.tabActive
+		async getData() {
+			const API_TOKEN =
+				'GMM0tkDJqJsOESZoG4eRfaMVmeo8NZLqazPB0Fw2vTKt2qthaNGkkJVCyNlT'
 
 			await this.$axios
-				.get('api/v2/everything', {
+				.get('api/scraping-jobs/', {
 					params: {
-						q: API_PARAM_QUERY,
-						domains: API_PARAM_DOMAINS.toString(),
-						apiKey: API_KEY
+						api_token: API_TOKEN
 					}
 				})
-				.then(res => {
+				.then(async res => {
 					if (res.status === 200) {
-						this.news = res.data.articles
-						this.news.forEach(data => {
-							if (!data.urlToImage) {
-								data.urlToImage = 'https://via.placeholder.com/300'
-							}
-						})
+						const resData = res.data.data
+						const JOBS_ID = resData[resData.length - 1].id
+
+						await this.$axios
+							.get(`api/scraping-job/${JOBS_ID}/json`, {
+								params: {
+									api_token: API_TOKEN
+								}
+							})
+							.then(res => {
+								if (res.status === 200) {
+									const resArr = res.data.split('\n')
+									if (resArr.length > 1) {
+										// buang yang paling terakhir karna string kosong
+										resArr.pop()
+										resArr.forEach(item => {
+											this.analytics.push(JSON.parse(item))
+										})
+									}
+								}
+							})
+							.catch(err => {
+								// eslint-disable-next-line no-console
+								console.error(err)
+							})
 					}
-					this.isUpdateData = false
 				})
 				.catch(err => {
-					this.isUpdateData = false
 					// eslint-disable-next-line no-console
-					console.log(err)
+					console.error(err)
 				})
-		},
-		changeTab(tab) {
-			this.tabActive = tab
 		}
+		// async updateData() {
+		// 	this.isUpdateData = true
+		// 	const API_KEY = '7e9507038e2e450a9749d80784a468bc'
+		// 	const API_PARAM_DOMAINS = [
+		// 		'techcrunch.com',
+		// 		// 'thenextweb.com',
+		// 		'bloomberg.com'
+		// 		// 'nytimes.com'
+		// 	]
+		// 	const API_PARAM_QUERY = this.tabActive
+		// 	await this.$axios
+		// 		.get('api/v2/everything', {
+		// 			params: {
+		// 				q: API_PARAM_QUERY,
+		// 				domains: API_PARAM_DOMAINS.toString(),
+		// 				apiKey: API_KEY
+		// 			}
+		// 		})
+		// 		.then(res => {
+		// 			if (res.status === 200) {
+		// 				this.news = res.data.articles
+		// 				this.news.forEach(data => {
+		// 					if (!data.urlToImage) {
+		// 						data.urlToImage = 'https://via.placeholder.com/300'
+		// 					}
+		// 				})
+		// 			}
+		// 			this.isUpdateData = false
+		// 		})
+		// 		.catch(err => {
+		// 			this.isUpdateData = false
+		// 			// eslint-disable-next-line no-console
+		// 			console.log(err)
+		// 		})
+		// }
 	}
 }
 </script>
 
 <style lang="scss" scoped>
+.site-main.fetching {
+	height: calc(100% - 70px);
+}
+.spinner-wrapper.fetching {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 .tab-nav {
 	overflow-x: auto;
 }
