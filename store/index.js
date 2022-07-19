@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 export const actions = {
 	async nuxtServerInit({ dispatch }, { route }) {
 		if (route.name === 'job-result') {
@@ -7,7 +8,9 @@ export const actions = {
 					loc: route.query.loc
 				}
 				await dispatch('job/getJobs', objParam)
-			} catch (error) {}
+			} catch (err) {
+				console.error(err)
+			}
 		}
 	}
 }
