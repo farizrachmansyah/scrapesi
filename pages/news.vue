@@ -23,6 +23,7 @@
 <script>
 import NewsCard from '~/components/news/NewsCard.vue'
 
+/* eslint-disable no-console */
 export default {
 	components: {
 		NewsCard
@@ -77,13 +78,11 @@ export default {
 								}
 							})
 							.catch(err => {
-								// eslint-disable-next-line no-console
 								console.error(err)
 							})
 					}
 				})
 				.catch(err => {
-					// eslint-disable-next-line no-console
 					console.error(err)
 				})
 		}
