@@ -18,10 +18,10 @@
 					</div>
 				</div>
 				<div class="bzg_c mb-0" data-col="s12m6">
-					<div class="text-white mb-8">
+					<div class="text-primary mb-8">
 						<span class="news-date">{{ cardData.time }}</span>
 					</div>
-					<span class="text-primary text-bold f-30">
+					<span class="text-white text-bold f-30">
 						{{ cardData.title }}
 					</span>
 				</div>

@@ -7,7 +7,7 @@
 				</h4>
 				<h1 class="subtitle text-cap m-0">
 					collect targeted job vacancies and convert them into spreadsheet
-					documents easily
+					documents <span class="tagline">easily</span>
 				</h1>
 			</section>
 			<section class="site-section">
@@ -191,6 +191,22 @@ export default {
 		line-height: 1.2;
 		font-family: $font_sec_serif;
 		font-weight: 800;
+
+		.tagline {
+			position: relative;
+			&::before {
+				content: '';
+				position: absolute;
+				bottom: 6px;
+				left: 0;
+				width: 100%;
+				height: 5px;
+				background: linear-gradient(to right, #31d35c, #2bb7da);
+				// background-clip: text;
+				// -webkit-background-clip: text;
+				// -webkit-text-fill-color: transparent;
+			}
+		}
 	}
 }
 
@@ -199,7 +215,7 @@ export default {
 	margin: 0 auto;
 	border-radius: 8px;
 	background: $white;
-	box-shadow: 0 2px 18px 2px rgba($primary, 0.25);
+	box-shadow: 0 2px 18px 2px rgba($accent, 0.25);
 
 	.input-label {
 		color: $primary;

@@ -33,10 +33,6 @@ export default {
 				{
 					title: 'Analytics',
 					url: '/analytics'
-				},
-				{
-					title: 'About',
-					url: '/about'
 				}
 			]
 		}

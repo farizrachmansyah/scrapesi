@@ -18,7 +18,7 @@ export default {
 }
 
 .copy {
-	color: $light;
+	color: $darken;
 	font-weight: 500;
 }
 </style>

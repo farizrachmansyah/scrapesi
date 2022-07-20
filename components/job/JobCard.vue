@@ -6,12 +6,12 @@
 		class="card p-12"
 	>
 		<div class="mb-48">
-			<h1 class="text-light job-name">{{ cardData.jobTitle }}</h1>
-			<h3 class="text-darken comp-name">{{ cardData.companyName }}</h3>
-			<p class="text-secondary loc-name">{{ cardData.jobLocation }}</p>
+			<h1 class="text-primary job-name">{{ cardData.jobTitle }}</h1>
+			<h3 class="text-white comp-name">{{ cardData.companyName }}</h3>
+			<p class="text-white loc-name">{{ cardData.jobLocation }}</p>
 		</div>
-		<div class="text-primary text-right">
-			<span class="time-desc pv-4 ph-12 bg-white">{{ cardData.time }}</span>
+		<div class="text-darken text-right">
+			<span class="time-desc pv-4 ph-12 bg-primary">{{ cardData.time }}</span>
 		</div>
 	</a>
 </template>
@@ -36,7 +36,7 @@ export default {
 	height: 100%;
 	border-radius: 16px;
 	transition: all 0.3s ease;
-	background: $primary;
+	background: linear-gradient(to right, #31d35c, #2bb7da);
 
 	&::before {
 		content: '';

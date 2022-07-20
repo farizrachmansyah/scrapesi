@@ -9,6 +9,15 @@
 					>{{ nav.title }}</nuxt-link
 				>
 			</li>
+			<li class="main-nav__item">
+				<a
+					href="https://github.com/farizrachmansyah/scrapesi"
+					target="_blank"
+					class="header-link about text-caps text-bold f-12"
+				>
+					About This Platform
+				</a>
+			</li>
 		</ul>
 	</nav>
 </template>
@@ -69,8 +78,20 @@ export default {
 	display: flex;
 	align-items: center;
 	padding: 5px 10px;
-	border-right: 3px solid transparent;
-	border-bottom: 3px solid transparent;
+
+	&.about {
+		height: unset;
+		margin-left: 10px;
+		padding: 12px 16px;
+		border-radius: 4px;
+		background: linear-gradient(to right, #31d35c, #2bb7da);
+		color: $white;
+
+		&:hover,
+		&:focus {
+			color: $white;
+		}
+	}
 
 	&.blur-active {
 		color: $white;
@@ -93,12 +114,6 @@ export default {
 
 	&.nuxt-link-active {
 		border-right-color: $primary;
-	}
-
-	@media #{$medium} {
-		&.nuxt-link-active {
-			border-right-color: transparent;
-		}
 	}
 }
 </style>
