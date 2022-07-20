@@ -46,16 +46,16 @@
 						You don't have any recent search.
 					</label>
 					<div class="form-action flex mt-48">
-						<button
-							class="btn--ghost-thirdty btn--transparent"
-							@click.prevent="reset()"
-						>
+						<button class="btn--transparent" @click.prevent="reset()">
 							Clear
 						</button>
-						<button class="btn--ghost-thirdty" @click.prevent="goToRecent()">
+						<button
+							class="btn--ghost-accent btn-recent"
+							@click.prevent="goToRecent()"
+						>
 							Recent Results
 						</button>
-						<button class="btn--thirdty">Find & Scrape</button>
+						<button class="btn--accent btn-find">Find & Scrape</button>
 					</div>
 
 					<!-- old way form submitting -->
@@ -163,11 +163,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.site-main {
-	.wrapper {
-		background: $fourty;
-	}
-}
+// .site-main {
+// 	background: $white;
+// }
 
 .site-section {
 	padding: 36px 0;
@@ -186,9 +184,10 @@ export default {
 	}
 
 	.title {
-		color: $thirdty;
+		color: $secondary;
 	}
 	.subtitle {
+		color: $primary;
 		line-height: 1.2;
 		font-family: $font_sec_serif;
 		font-weight: 800;
@@ -199,11 +198,19 @@ export default {
 	max-width: 600px;
 	margin: 0 auto;
 	border-radius: 8px;
-	box-shadow: 0 2px 18px 2px rgba($thirdty, 0.25);
+	background: $white;
+	box-shadow: 0 2px 18px 2px rgba($primary, 0.25);
 
 	.input-label {
+		color: $primary;
 		display: block;
 		font-weight: 600;
+	}
+
+	.form-input {
+		color: $primary;
+		background: transparent;
+		border-color: $primary;
 	}
 }
 
@@ -221,6 +228,17 @@ export default {
 			margin-left: auto;
 			margin-right: 12px;
 		}
+	}
+
+	.btn--transparent {
+		color: $accent;
+	}
+	.btn-recent:hover {
+		color: $white;
+		// background: $accent;
+	}
+	.btn-find {
+		background: linear-gradient(to right, #31d35c, #2bb7da);
 	}
 }
 </style>

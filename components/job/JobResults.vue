@@ -1,6 +1,6 @@
 <template>
 	<section class="wrapper">
-		<div class="container pv-36">
+		<div class="container text-primary pv-36">
 			<h4 class="text-caps mb-24">download scraped data</h4>
 			<div class="flex v-end f-space-between">
 				<div class="option-ext">
@@ -55,7 +55,7 @@
 				</div>
 				<div class="option-btn">
 					<DownloadExcel
-						class="btn--ghost-primary mr-12"
+						class="btn--ghost-accent btn-page-gradient mr-12"
 						:data="perPageData"
 						:fields="json_fields"
 						:type="selectedExt"
@@ -64,7 +64,7 @@
 						Download This Page
 					</DownloadExcel>
 					<DownloadExcel
-						class="btn--primary"
+						class="btn--accent btn-all-gradient"
 						:data="allJobsData"
 						:fields="json_fields"
 						:type="selectedExt"
@@ -151,15 +151,14 @@ export default {
 .wrapper {
 	background: $white;
 	border-top: 3px solid $primary;
-	border-bottom: 3px solid $primary;
 }
 
 .btn-trigger {
 	width: unset !important;
 	padding: 0 !important;
 	border-radius: 0;
-	border-bottom: 1px solid $fourty;
-	color: $fourty;
+	border-bottom: 1px solid $primary;
+	color: $primary;
 }
 
 .select-custom__panel {
@@ -175,5 +174,12 @@ export default {
 	.select-custom__panel {
 		transform: translate(0, -105%);
 	}
+}
+
+.btn-page-gradient:hover {
+	color: $white;
+}
+.btn-all-gradient {
+	background: linear-gradient(to right, #31d35c, #2bb7da);
 }
 </style>

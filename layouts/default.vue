@@ -84,6 +84,11 @@ export default {
 
 	h1 {
 		font-size: 24px;
+		color: $primary;
+	}
+
+	p {
+		color: $secondary;
 	}
 }
 .popup-wrapper {

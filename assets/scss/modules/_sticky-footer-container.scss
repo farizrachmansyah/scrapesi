@@ -14,6 +14,7 @@ body {
 .sticky-footer-container-item {
     display: table-row;
     height: 1px;
+    background: $light;
 
     &.\--pushed {
         // height: auto;

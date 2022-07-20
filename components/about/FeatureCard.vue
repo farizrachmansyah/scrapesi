@@ -17,6 +17,6 @@ export default {}
 <style lang="scss" scoped>
 .card {
 	border-radius: 16px;
-	border: 1px solid $fourty;
+	border: 1px solid $primary;
 }
 </style>

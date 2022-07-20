@@ -1,5 +1,5 @@
 <template>
-	<div v-if="slug === 0" class="headline bg-light">
+	<div v-if="slug === 0" class="headline">
 		<a
 			:href="cardData['url-href']"
 			target="_blank"
@@ -18,10 +18,10 @@
 					</div>
 				</div>
 				<div class="bzg_c mb-0" data-col="s12m6">
-					<div class="text-grey mb-8">
+					<div class="text-white mb-8">
 						<span class="news-date">{{ cardData.time }}</span>
 					</div>
-					<span class="text-bold f-30">
+					<span class="text-primary text-bold f-30">
 						{{ cardData.title }}
 					</span>
 				</div>
@@ -41,10 +41,10 @@
 			</div>
 		</div>
 		<div>
-			<div class="text-grey mb-8">
+			<div class="text-secondary mb-8">
 				<span class="news-date f-14">{{ cardData.time }}</span>
 			</div>
-			<span class="text-bold">
+			<span class="text-primary text-bold">
 				{{ cardData.title }}
 			</span>
 		</div>
@@ -64,18 +64,6 @@ export default {
 			default: 0
 		}
 	}
-	// computed: {
-	// 	publishDate() {
-	// 		const date = new Date(this.cardData.publishedAt)
-	// 		const options = {
-	// 			weekday: 'long',
-	// 			year: 'numeric',
-	// 			month: 'long',
-	// 			day: 'numeric'
-	// 		}
-	// 		return date.toLocaleDateString('in', options)
-	// 	}
-	// }
 }
 </script>
 
@@ -83,6 +71,7 @@ export default {
 .headline {
 	border-radius: 16px;
 	padding: 28px;
+	background: linear-gradient(to right, #31d35c, #2bb7da);
 
 	@media #{$medium} {
 		padding: 48px;

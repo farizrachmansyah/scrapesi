@@ -4,7 +4,7 @@
 			<div class="jumbotron bzg v-center">
 				<div class="bzg_c mb-0" data-col="m6">
 					<div class="jumbotron-text">
-						<h1 class="text-fourty">
+						<h1 class="text-primary">
 							Lorem ipsum, dolor sit amet consectetur adipisicing elit.
 						</h1>
 						<h5 class="mb-0">
@@ -62,7 +62,7 @@ export default {
 	head() {
 		return {
 			...this.$SEOMeta({
-				metaTitle: 'About Us'
+				metaTitle: 'About'
 			})
 		}
 	}

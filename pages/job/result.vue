@@ -44,7 +44,7 @@
 		>
 			<div v-if="isResultTab" class="pv-24">
 				<div v-if="jobs.length">
-					<p class="mb-24">
+					<p class="text-primary mb-24">
 						Found {{ totalJobs }} vacancies for
 						<span class="text-bold">{{ $route.query.q }}</span> positions in
 						<span class="text-bold">{{ $route.query.loc }}</span> and
@@ -275,7 +275,7 @@ export default {
 			}
 		}
 		.desc {
-			color: $grey;
+			color: $light;
 			font-size: 16px;
 			font-weight: 400;
 

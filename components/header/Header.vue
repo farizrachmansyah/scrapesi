@@ -1,5 +1,5 @@
 <template>
-	<header class="site-header">
+	<header :class="{ 'blur-active': activateBlur }" class="site-header">
 		<div class="container">
 			<Logo />
 
@@ -24,14 +24,15 @@ export default {
 	name: 'Header',
 	data() {
 		return {
+			activateBlur: false,
 			mainNav: [
 				{
 					title: 'Job Listings',
 					url: '/job'
 				},
 				{
-					title: 'News',
-					url: '/news'
+					title: 'Analytics',
+					url: '/analytics'
 				},
 				{
 					title: 'About',
@@ -39,6 +40,19 @@ export default {
 				}
 			]
 		}
+	},
+	mounted() {
+		const scrollTrigger = 60
+		window.addEventListener('scroll', () => {
+			if (
+				window.scrollY >= scrollTrigger ||
+				window.pageYOffset >= scrollTrigger
+			) {
+				this.activateBlur = true
+			} else {
+				this.activateBlur = false
+			}
+		})
 	}
 }
 </script>
@@ -51,9 +65,14 @@ export default {
 	top: 0;
 	left: 0;
 	width: 100%;
-	background-color: #fff;
+	background: transparent;
 	height: 60px;
-	border-bottom: 1px solid #e6e6e6;
+	transition: all 0.3s ease-out;
+
+	&.blur-active {
+		background: rgba(45, 49, 77, 0.8);
+		backdrop-filter: blur(12px);
+	}
 
 	& > .container {
 		display: flex;
@@ -91,32 +110,6 @@ export default {
 	.nav-container {
 		display: flex;
 		height: 100%;
-	}
-
-	.header-link {
-		color: $primary;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		padding: 5px 10px;
-		border-right: 3px solid transparent;
-		border-bottom: 3px solid transparent;
-
-		&:hover,
-		&:focus,
-		&.nuxt-link-active {
-			color: $thirdty;
-		}
-
-		&.nuxt-link-active {
-			border-right-color: $thirdty;
-		}
-
-		@media #{$medium} {
-			&.nuxt-link-active {
-				border-right-color: transparent;
-			}
-		}
 	}
 }
 </style>

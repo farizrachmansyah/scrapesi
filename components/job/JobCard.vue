@@ -6,12 +6,12 @@
 		class="card p-12"
 	>
 		<div class="mb-48">
-			<h1 class="job-name">{{ cardData.jobTitle }}</h1>
-			<h3 class="comp-name">{{ cardData.companyName }}</h3>
-			<p class="loc-name">{{ cardData.jobLocation }}</p>
+			<h1 class="text-light job-name">{{ cardData.jobTitle }}</h1>
+			<h3 class="text-darken comp-name">{{ cardData.companyName }}</h3>
+			<p class="text-secondary loc-name">{{ cardData.jobLocation }}</p>
 		</div>
-		<div class="text-light-grey text-right">
-			<span class="time-desc pv-4 ph-12 bg-fourty">{{ cardData.time }}</span>
+		<div class="text-primary text-right">
+			<span class="time-desc pv-4 ph-12 bg-white">{{ cardData.time }}</span>
 		</div>
 	</a>
 </template>
@@ -35,8 +35,8 @@ export default {
 	width: 100%;
 	height: 100%;
 	border-radius: 16px;
-	border: 1px solid $fourty;
 	transition: all 0.3s ease;
+	background: $primary;
 
 	&::before {
 		content: '';
@@ -65,8 +65,6 @@ export default {
 	}
 
 	&:hover {
-		border-color: transparent;
-
 		&::before {
 			opacity: 1;
 			max-height: 100%;
@@ -97,9 +95,6 @@ export default {
 	}
 	.comp-name {
 		margin-bottom: 4px;
-	}
-	.loc-name {
-		color: $grey;
 	}
 	.time-desc {
 		border-radius: 16px;

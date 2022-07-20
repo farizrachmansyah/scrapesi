@@ -8,11 +8,11 @@
 				<div class="bzg">
 					<div
 						v-for="(item, i) in analytics"
-						:key="`news-${i}`"
+						:key="`analytics-${i}`"
 						class="bzg_c"
 						:data-col="i === 0 ? 's12' : 'm6l4'"
 					>
-						<NewsCard :card-data="item" :slug="i" />
+						<Card :card-data="item" :slug="i" />
 					</div>
 				</div>
 			</div>
@@ -21,12 +21,12 @@
 </template>
 
 <script>
-import NewsCard from '~/components/news/NewsCard.vue'
+import Card from '~/components/analytics/Card.vue'
 
 /* eslint-disable no-console */
 export default {
 	components: {
-		NewsCard
+		Card
 	},
 	data() {
 		return {
@@ -39,7 +39,7 @@ export default {
 	head() {
 		return {
 			...this.$SEOMeta({
-				metaTitle: 'News'
+				metaTitle: 'Analytics'
 			})
 		}
 	},
@@ -134,18 +134,6 @@ export default {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-}
-
-.tab-nav {
-	overflow-x: auto;
-}
-
-.btn-tab {
-	font-weight: 400;
-
-	&.tab-active {
-		font-weight: 700;
-	}
 }
 
 .bzg_c {

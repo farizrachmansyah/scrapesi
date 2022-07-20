@@ -14,11 +14,11 @@ export default {
 
 <style lang="scss" scoped>
 .site-footer {
-	background: $thirdty;
+	background: $primary;
 }
 
 .copy {
-	color: $white;
+	color: $light;
 	font-weight: 500;
 }
 </style>
