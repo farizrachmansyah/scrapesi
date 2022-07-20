@@ -267,7 +267,7 @@ export default {
 		}
 
 		.title {
-			color: $black;
+			color: $primary;
 			font-size: 24px;
 
 			@media #{$medium} {
@@ -275,7 +275,7 @@ export default {
 			}
 		}
 		.desc {
-			color: $light;
+			color: $secondary;
 			font-size: 16px;
 			font-weight: 400;
 

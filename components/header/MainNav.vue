@@ -15,7 +15,7 @@
 					target="_blank"
 					class="header-link about text-caps text-bold f-12"
 				>
-					About This Platform
+					About This Project
 				</a>
 			</li>
 		</ul>

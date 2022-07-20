@@ -202,9 +202,7 @@ export default {
 				width: 100%;
 				height: 5px;
 				background: linear-gradient(to right, #31d35c, #2bb7da);
-				// background-clip: text;
-				// -webkit-background-clip: text;
-				// -webkit-text-fill-color: transparent;
+				border-radius: 4px;
 			}
 		}
 	}

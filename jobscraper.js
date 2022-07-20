@@ -5,7 +5,7 @@ const pptr = require('puppeteer')
 class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
-			headless: true,
+			headless: false,
 			ignoreHTTPSErrors: true,
 			defaultViewport: null,
 			// args documentation (https://peter.sh/experiments/chromium-command-line-switches/)
@@ -59,6 +59,7 @@ class Jobs {
 			)
 		})
 
+		console.log(results)
 		if (results.length) {
 			let concatResults = []
 

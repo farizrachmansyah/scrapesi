@@ -47,7 +47,7 @@ export default {
 		height: 100%;
 		max-height: 0;
 		border-radius: 16px;
-		background: rgba($black, 0.75);
+		background: rgba($primary, 0.75);
 		opacity: 0;
 		transition: all 0.3s ease;
 	}
