@@ -7,8 +7,8 @@
 	>
 		<div class="mb-48">
 			<h1 class="text-primary job-name">{{ cardData.jobTitle }}</h1>
-			<h3 class="text-white comp-name">{{ cardData.companyName }}</h3>
-			<p class="text-white loc-name">{{ cardData.jobLocation }}</p>
+			<h3 class="text-light comp-name">{{ cardData.companyName }}</h3>
+			<p class="text-light loc-name">{{ cardData.jobLocation }}</p>
 		</div>
 		<div class="text-darken text-right">
 			<span class="time-desc pv-4 ph-12 bg-primary">{{ cardData.time }}</span>
