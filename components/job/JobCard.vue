@@ -3,15 +3,17 @@
 		v-if="cardData"
 		:href="cardData.url ? cardData.url : ''"
 		target="_blank"
-		class="card p-12"
+		class="card p-6"
 	>
-		<div class="mb-48">
-			<h1 class="text-primary job-name">{{ cardData.jobTitle }}</h1>
-			<h3 class="text-light comp-name">{{ cardData.companyName }}</h3>
-			<p class="text-light loc-name">{{ cardData.jobLocation }}</p>
-		</div>
-		<div class="text-darken text-right">
-			<span class="time-desc pv-4 ph-12 bg-primary">{{ cardData.time }}</span>
+		<div class="p-12">
+			<div class="mb-48">
+				<h1 class="text-primary job-name">{{ cardData.jobTitle }}</h1>
+				<h3 class="text-secondary comp-name">{{ cardData.companyName }}</h3>
+				<p class="text-secondary loc-name">{{ cardData.jobLocation }}</p>
+			</div>
+			<div class="text-darken text-right">
+				<span class="time-desc pv-4 ph-12 bg-primary">{{ cardData.time }}</span>
+			</div>
 		</div>
 	</a>
 </template>
@@ -30,8 +32,7 @@ export default {
 <style lang="scss" scoped>
 .card {
 	position: relative;
-	display: flex;
-	flex-direction: column;
+	display: inline-block;
 	width: 100%;
 	height: 100%;
 	border-radius: 16px;
@@ -74,8 +75,16 @@ export default {
 		}
 	}
 
-	& > *:last-child {
-		margin-top: auto;
+	& > div {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background: $white;
+		border-radius: 10px;
+
+		& > *:last-child {
+			margin-top: auto;
+		}
 	}
 
 	.job-name,
