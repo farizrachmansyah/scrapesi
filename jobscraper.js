@@ -10,7 +10,7 @@ const pptr = require('puppeteer')
 class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
-			headless: false,
+			headless: true,
 			defaultViewport: null,
 			ignoreDefaultArgs: ['--disable-extensions'],
 			args: [
