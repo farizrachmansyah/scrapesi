@@ -121,6 +121,13 @@ export default {
 			openTabOption: false
 		}
 	},
+	head() {
+		return {
+			...this.$SEOMeta({
+				metaTitle: this.metaTitle
+			})
+		}
+	},
 	computed: {
 		...mapState({
 			jobs: state => {
@@ -132,6 +139,11 @@ export default {
 		}),
 		isResultTab() {
 			return this.$route.query.tab === 'result'
+		},
+		metaTitle() {
+			return this.isResultTab
+				? `Results for ${this.$route.query.q} in ${this.$route.query.loc}`
+				: 'Your scraping history'
 		},
 		lastPage() {
 			return this.jobs.length

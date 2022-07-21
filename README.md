@@ -1,20 +1,9 @@
-# Baze Suitmedia
+# Scrapesi
 
-## Build Setup
+A Free Automated Job Vacancies Scraping Converter Tools.
 
-```bash
-# install dependencies
-$ npm install
+## What is this tools use for?
 
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+- Data Collection
+- Job Portal (courtesy of [Indeed](https://id.indeed.com/) and [Jobs.id](https://www.jobs.id/))
+- Career insight based on analytics (courtesy of [Databoks](https://databoks.katadata.co.id/))

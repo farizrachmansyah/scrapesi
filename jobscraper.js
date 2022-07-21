@@ -5,18 +5,52 @@ const pptr = require('puppeteer')
 class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
-			headless: true,
-			ignoreHTTPSErrors: true,
+			headless: false,
 			defaultViewport: null,
+			userDataDir: './scrape-cache',
 			// args documentation (https://peter.sh/experiments/chromium-command-line-switches/)
 			args: [
-				'--no-sandbox',
+				'--autoplay-policy=user-gesture-required',
+				'--disable-background-networking',
+				'--disable-background-timer-throttling',
+				'--disable-backgrounding-occluded-windows',
+				'--disable-breakpad',
+				'--disable-client-side-phishing-detection',
+				'--disable-component-update',
+				'--disable-default-apps',
+				'--disable-dev-shm-usage',
+				'--disable-domain-reliability',
+				'--disable-extensions',
+				'--disable-features=AudioServiceOutOfProcess',
+				'--disable-hang-monitor',
+				'--disable-ipc-flooding-protection',
+				'--disable-notifications',
+				'--disable-offer-store-unmasked-wallet-cards',
+				'--disable-popup-blocking',
+				'--disable-print-preview',
+				'--disable-prompt-on-repost',
+				'--disable-renderer-backgrounding',
 				'--disable-setuid-sandbox',
-				'--disable-dev-shm-usage'
+				'--disable-speech-api',
+				'--disable-sync',
+				'--hide-scrollbars',
+				'--ignore-gpu-blacklist',
+				'--metrics-recording-only',
+				'--mute-audio',
+				'--no-default-browser-check',
+				'--no-first-run',
+				'--no-pings',
+				'--no-sandbox',
+				'--no-zygote',
+				'--password-store=basic',
+				'--use-gl=swiftshader',
+				'--use-mock-keychain'
 			]
 		})
 		try {
 			return await fn(browser)
+		} catch (err) {
+			console.error(err)
 		} finally {
 			await browser.close()
 		}
@@ -32,6 +66,8 @@ class Jobs {
 		})
 		try {
 			return await fn(page)
+		} catch (err) {
+			console.error(err)
 		} finally {
 			await page.close()
 		}
@@ -59,7 +95,6 @@ class Jobs {
 			)
 		})
 
-		console.log(results)
 		if (results.length) {
 			let concatResults = []
 
@@ -126,8 +161,8 @@ class Jobs {
 	}
 
 	static async scrapeFromJobsid(query, loc, page) {
-		const sanitizeLoc = loc.toLowerCase() === 'jakarta' ? 'dki jakarta' : loc
-		let baseUrl = `https://www.jobs.id/lowongan-kerja-${query}-di-${sanitizeLoc}?kata-kunci=${query}`
+		const modifiedLoc = loc.toLowerCase() === 'jakarta' ? 'dki-jakarta' : loc
+		let baseUrl = `https://www.jobs.id/lowongan-kerja-${query}-di-${modifiedLoc}?kata-kunci=${query}`
 		let allJobs = []
 		let pageCount = 1
 
