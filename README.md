@@ -2,7 +2,7 @@
 
 A Free Automated Job Vacancies Scraping Converter Tools.
 
-## What is this tools use for?
+## What is this tool used for?
 
 - Data Collection
 - Job Portal (courtesy of [Indeed](https://id.indeed.com/) and [Jobs.id](https://www.jobs.id/))
