@@ -23,7 +23,7 @@ export default {
 	env: listENVS,
 	// Global page headers (https://go.nuxtjs.dev/config-head)
 	head: {
-		title: 'Scrapesi',
+		title: 'Scrapesi - Collect, Convert, and Learn',
 		meta: defaultMeta,
 		link: [
 			{ rel: 'apple-touch-icon', href: '/favicon.png' },
