@@ -26,7 +26,7 @@ export default {
 		title: 'Scrapesi',
 		meta: defaultMeta,
 		link: [
-			{ rel: 'apple-touch-icon', href: '/apple-icon.png' },
+			{ rel: 'apple-touch-icon', href: '/favicon.png' },
 			{ rel: 'icon', type: 'image/png', href: '/favicon.png' }
 		]
 	},
