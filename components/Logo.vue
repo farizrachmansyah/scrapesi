@@ -31,7 +31,8 @@ export default {
 .site-logo {
 	font-family: $base_logo_font;
 	font-weight: 700;
-	font-size: 3rem;
+	font-size: 1.5rem;
+	letter-spacing: -2px;
 	color: $primary;
 
 	&.blur-active {

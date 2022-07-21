@@ -82,7 +82,7 @@ export default {
 	&.about {
 		height: unset;
 		margin-left: 10px;
-		padding: 12px 16px;
+		padding: 10px 16px;
 		border-radius: 4px;
 		background: linear-gradient(to right, #31d35c, #2bb7da);
 		color: $white;

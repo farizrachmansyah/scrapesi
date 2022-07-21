@@ -21,9 +21,9 @@
 					<div class="text-primary mb-8">
 						<span class="news-date">{{ cardData.time }}</span>
 					</div>
-					<span class="text-white text-bold f-30">
+					<h1 class="text-white text-bold f-30">
 						{{ cardData.title }}
-					</span>
+					</h1>
 				</div>
 			</div>
 		</a>
@@ -44,9 +44,9 @@
 			<div class="text-secondary mb-8">
 				<span class="news-date f-14">{{ cardData.time }}</span>
 			</div>
-			<span class="text-primary text-bold">
+			<h1 class="text-primary text-bold f-16">
 				{{ cardData.title }}
-			</span>
+			</h1>
 		</div>
 	</a>
 </template>
@@ -68,6 +68,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h1 {
+	line-height: 1.3;
+}
+
 .headline {
 	border-radius: 16px;
 	padding: 28px;

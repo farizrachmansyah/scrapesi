@@ -9,10 +9,10 @@ $font_sec_serif: 'Poppins',-apple-system, system-ui, BlinkMacSystemFont, 'Segoe 
 	'Helvetica Neue', Arial, sans-serif;
 $font_hand: 'Just Another Hand',-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
 	'Helvetica Neue', Arial, sans-serif;
-$font_news: 'Ibarra Real Nova',-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+$font_news: 'DM Serif Display',-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
 	'Helvetica Neue', Arial, sans-serif;
 $base_font_family: $font_serif;
-$base_logo_font: $font_hand;
+$base_logo_font: $font_sec_serif;
 $space: $base_line_height * 1em;
 
 // Colors

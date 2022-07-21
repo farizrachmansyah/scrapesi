@@ -189,7 +189,7 @@ export default {
 	.subtitle {
 		color: $primary;
 		line-height: 1.2;
-		font-family: $font_sec_serif;
+		font-family: $font_news;
 		font-weight: 800;
 
 		.tagline {
@@ -200,9 +200,8 @@ export default {
 				bottom: 6px;
 				left: 0;
 				width: 100%;
-				height: 5px;
+				height: 4px;
 				background: linear-gradient(to right, #31d35c, #2bb7da);
-				border-radius: 4px;
 			}
 		}
 	}
@@ -225,6 +224,10 @@ export default {
 		color: $primary;
 		background: transparent;
 		border-color: $primary;
+
+		&::placeholder {
+			color: $secondary;
+		}
 	}
 }
 
