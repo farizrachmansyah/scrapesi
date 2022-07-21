@@ -47,12 +47,16 @@ export default {
 			]
 		}
 	},
-	created() {
-		this.$nuxt.$on('startScrape', condition => {
-			this.isScraping = condition
-		})
-	},
 	mounted() {
+		const body = document.getElementsByTagName('body')[0]
+		this.$nuxt.$on('startScrape', () => {
+			this.isScraping = true
+			body.style.overflow = 'hidden'
+		})
+		this.$nuxt.$on('stopScrape', () => {
+			this.isScraping = false
+			body.style.overflow = null
+		})
 		this.$store.commit(
 			'history/SET_HISTORY',
 			JSON.parse(localStorage.getItem('search'))
@@ -67,19 +71,17 @@ export default {
 
 <style lang="scss" scoped>
 .popup-scraping {
-	position: absolute;
+	position: fixed;
 	z-index: 4;
 	top: 0;
 	left: 0;
 	display: none;
-	align-items: center;
-	justify-content: center;
 	width: 100%;
 	height: 100%;
 	background: rgba($black, 0.75);
 
 	&.scraping {
-		display: flex;
+		display: block;
 	}
 
 	h1 {
@@ -92,7 +94,12 @@ export default {
 	}
 }
 .popup-wrapper {
-	margin: 0 24px;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 85%;
+	max-width: 505.8px;
 	padding: 32px;
 	border-radius: 8px;
 	background: $white;

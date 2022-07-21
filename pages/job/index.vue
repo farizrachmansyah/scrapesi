@@ -87,6 +87,9 @@ export default {
 			getRecent: 'history/getRecent'
 		})
 	},
+	beforeDestroy() {
+		this.$nuxt.$emit('stopScrape')
+	},
 	methods: {
 		reset() {
 			this.query = ''
@@ -127,7 +130,7 @@ export default {
 		findAndScrape(e) {
 			// check fields and save history
 			if (this.query.length || this.loc.length) {
-				this.$nuxt.$emit('startScrape', true)
+				this.$nuxt.$emit('startScrape')
 				this.isWarning = false
 				this.hasRecentKey = true
 

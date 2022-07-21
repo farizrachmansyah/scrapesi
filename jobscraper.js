@@ -2,19 +2,59 @@
 /* eslint-disable require-await */
 const pptr = require('puppeteer')
 
+// Sources
+// parallelization tricks (https://advancedweb.hu/how-to-speed-up-puppeteer-scraping-with-parallelization/)
+// official troubleshoot page (https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md)
+// args documentation (https://peter.sh/experiments/chromium-command-line-switches/)
+// puppeteer with minimal settings (https://www.bannerbear.com/blog/ways-to-speed-up-puppeteer-screenshots/)
 class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
 			headless: false,
 			defaultViewport: null,
 			ignoreDefaultArgs: ['--disable-extensions'],
-			// args documentation (https://peter.sh/experiments/chromium-command-line-switches/)
-			args: ['--no-sandbox']
+			args: [
+				'--autoplay-policy=user-gesture-required',
+				'--disable-background-networking',
+				'--disable-background-timer-throttling',
+				'--disable-backgrounding-occluded-windows',
+				'--disable-breakpad',
+				'--disable-client-side-phishing-detection',
+				'--disable-component-update',
+				'--disable-default-apps',
+				'--disable-dev-shm-usage',
+				'--disable-domain-reliability',
+				'--disable-features=AudioServiceOutOfProcess',
+				'--disable-hang-monitor',
+				'--disable-ipc-flooding-protection',
+				'--disable-notifications',
+				'--disable-offer-store-unmasked-wallet-cards',
+				'--disable-popup-blocking',
+				'--disable-print-preview',
+				'--disable-prompt-on-repost',
+				'--disable-renderer-backgrounding',
+				'--disable-setuid-sandbox',
+				'--disable-speech-api',
+				'--disable-sync',
+				'--hide-scrollbars',
+				'--ignore-gpu-blacklist',
+				'--metrics-recording-only',
+				'--mute-audio',
+				'--no-default-browser-check',
+				'--no-first-run',
+				'--no-pings',
+				'--no-sandbox',
+				'--no-zygote',
+				'--password-store=basic',
+				'--use-gl=egl',
+				'--use-mock-keychain',
+				'--disable-accelerated-2d-canvas'
+			]
 		})
 		try {
 			return await fn(browser)
 		} catch (err) {
-			console.error(err)
+			console.log(err)
 		} finally {
 			await browser.close()
 		}
@@ -31,7 +71,7 @@ class Jobs {
 		try {
 			return await fn(page)
 		} catch (err) {
-			console.error(err)
+			console.log(err)
 		} finally {
 			await page.waitForTimeout(2000)
 			await page.close()
@@ -53,7 +93,7 @@ class Jobs {
 								return await this.scrapeFromJobsid(query, loc, page)
 							}
 						} catch (err) {
-							console.error(err)
+							console.log(err)
 						}
 					})
 				})
@@ -104,7 +144,7 @@ class Jobs {
 					}
 				)
 				.catch(err => {
-					console.error(err)
+					console.log(err)
 				})
 			allJobs = [...allJobs, ...jobsPerPage]
 
@@ -157,7 +197,7 @@ class Jobs {
 					}))
 				})
 				.catch(err => {
-					console.error(err)
+					console.log(err)
 				})
 			allJobs = [...allJobs, ...jobsPerPage]
 
@@ -189,72 +229,3 @@ class Jobs {
 }
 
 export default Jobs
-
-// static async initPage() {
-// 	browser = await pptr.launch({
-// 		headless: false,
-// 		args: [
-// 			'--no-sandbox',
-// 			'--disable-setuid-sandbox',
-// 			'--disable-dev-shm-usage',
-// 			'--disable-accelerated-2d-canvas',
-// 			'--no-first-run',
-// 			'--no-zygote',
-// 			'--single-process', // <- this one doesn't works in Windows
-// 			'--disable-gpu'
-// 		]
-// 	})
-// 	page = await browser.newPage()
-// }
-
-// await this.initPage()
-// let url = `https://id.indeed.com/jobs?q=${query}&l=${loc}`
-// const allJobs = []
-
-// while (true) {
-// 	await page.goto(url, { waitUntil: 'networkidle2' })
-// 	await page
-// 		.waitForSelector('#mosaic-provider-jobcards')
-// 		.catch(async () => {
-// 			// kalo selectornya gaketemu berarti gaada hasil
-// 			// close and return
-// 			await browser.close()
-// 			return allJobs
-// 		})
-
-// 	// get all jobcard perpage
-// 	const jobPerPage = await page.$$eval(
-// 		'.jobsearch-ResultsList .tapItem.result .job_seen_beacon',
-// 		cards => {
-// 			return cards.map(card => ({
-// 				jobTitle: card.querySelector('h2.jobTitle > a > span').title,
-// 				companyName: card.querySelector('.companyInfo .companyName')
-// 					.textContent,
-// 				jobLocation: card.querySelector('.companyLocation').textContent,
-// 				time: card.querySelector('.underShelfFooter .date').lastChild
-// 					.nodeValue,
-// 				url: `https://id.indeed.com${card
-// 					.querySelector('h2.jobTitle > a')
-// 					.getAttribute('href')}`
-// 			}))
-// 		}
-// 	)
-// 	allJobs.push(jobPerPage)
-
-// 	try {
-// 		const btnUrl = await page.$eval(
-// 			'#resultsCol > nav > div > ul > li:last-child > a',
-// 			el => {
-// 				if (el.ariaLabel === 'Next' || el.ariaLabel === 'Berikutnya') {
-// 					return el.href
-// 				}
-// 			}
-// 		)
-// 		url = btnUrl
-// 	} catch {
-// 		break
-// 	}
-// }
-
-// await browser.close()
-// return allJobs
