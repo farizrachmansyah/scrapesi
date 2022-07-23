@@ -19,10 +19,6 @@ const AxiosInstance = {
 
 export default {
 	target: 'server',
-	server: {
-		port: 80,
-		host: '0.0.0.0'
-	},
 	// Duplicate .env
 	env: listENVS,
 	// Global page headers (https://go.nuxtjs.dev/config-head)
