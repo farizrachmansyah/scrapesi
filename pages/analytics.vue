@@ -86,41 +86,6 @@ export default {
 					console.error(err)
 				})
 		}
-		// async updateData() {
-		// 	this.isUpdateData = true
-		// 	const API_KEY = '7e9507038e2e450a9749d80784a468bc'
-		// 	const API_PARAM_DOMAINS = [
-		// 		'techcrunch.com',
-		// 		// 'thenextweb.com',
-		// 		'bloomberg.com'
-		// 		// 'nytimes.com'
-		// 	]
-		// 	const API_PARAM_QUERY = this.tabActive
-		// 	await this.$axios
-		// 		.get('api/v2/everything', {
-		// 			params: {
-		// 				q: API_PARAM_QUERY,
-		// 				domains: API_PARAM_DOMAINS.toString(),
-		// 				apiKey: API_KEY
-		// 			}
-		// 		})
-		// 		.then(res => {
-		// 			if (res.status === 200) {
-		// 				this.news = res.data.articles
-		// 				this.news.forEach(data => {
-		// 					if (!data.urlToImage) {
-		// 						data.urlToImage = 'https://via.placeholder.com/300'
-		// 					}
-		// 				})
-		// 			}
-		// 			this.isUpdateData = false
-		// 		})
-		// 		.catch(err => {
-		// 			this.isUpdateData = false
-		// 			// eslint-disable-next-line no-console
-		// 			console.log(err)
-		// 		})
-		// }
 	}
 }
 </script>
