@@ -18,7 +18,7 @@ class Jobs {
 		try {
 			return await fn(browser)
 		} catch (err) {
-			console.log(err)
+			console.log('error at browser: ', err)
 		} finally {
 			await browser.close()
 		}
@@ -35,9 +35,8 @@ class Jobs {
 		try {
 			return await fn(page)
 		} catch (err) {
-			console.log(err)
+			console.log('error at page: ', err)
 		} finally {
-			await page.waitForTimeout(2000)
 			await page.close()
 		}
 	}
@@ -57,7 +56,7 @@ class Jobs {
 								return await this.scrapeFromJobsid(query, loc, page)
 							}
 						} catch (err) {
-							console.log(err)
+							console.log('error when calling scrape func: ', err)
 						}
 					})
 				})
@@ -108,7 +107,7 @@ class Jobs {
 					}
 				)
 				.catch(err => {
-					console.log(err)
+					console.log('error at indeed jobsPerPage: ', err)
 				})
 			allJobs = [...allJobs, ...jobsPerPage]
 
@@ -157,11 +156,10 @@ class Jobs {
 							'div:nth-child(1) > div:nth-child(2) > p.text-muted'
 						).textContent,
 						url: card.querySelector('h3 > a.bold').getAttribute('href')
-						// companyName: ''
 					}))
 				})
 				.catch(err => {
-					console.log(err)
+					console.log('error at jobs.id jobsPerPage: ', err)
 				})
 			allJobs = [...allJobs, ...jobsPerPage]
 
