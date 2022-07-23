@@ -61,7 +61,7 @@
 						:type="selectedExt"
 						:name="getFileName((isPage = true))"
 					>
-						Download This Page
+						Download Current Page
 					</DownloadExcel>
 					<DownloadExcel
 						class="btn--accent btn-all-gradient"
@@ -70,7 +70,7 @@
 						:type="selectedExt"
 						:name="getFileName((isPage = false))"
 					>
-						Download All
+						Download All Pages
 					</DownloadExcel>
 				</div>
 			</div>

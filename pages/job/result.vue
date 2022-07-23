@@ -115,6 +115,11 @@ export default {
 		JobCard,
 		HistoryCard
 	},
+	middleware({ store, redirect }) {
+		if (!store.state.job.jobs.length) {
+			return redirect('/job')
+		}
+	},
 	data() {
 		return {
 			currPage: parseInt(this.$route.query.page) || 1,
