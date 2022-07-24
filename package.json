@@ -54,5 +54,8 @@
     "path": false,
     "os": false,
     "tls": false
+  },
+  "engines": {
+    "node": "12.22.12"
   }
 }
