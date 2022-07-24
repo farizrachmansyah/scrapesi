@@ -49,7 +49,7 @@ export default {
 				'GMM0tkDJqJsOESZoG4eRfaMVmeo8NZLqazPB0Fw2vTKt2qthaNGkkJVCyNlT'
 
 			await this.$axios
-				.get('/api/scraping-jobs/', {
+				.get('/fakerapi/scraping-jobs/', {
 					params: {
 						api_token: API_TOKEN
 					}
@@ -60,7 +60,7 @@ export default {
 						const JOBS_ID = resData[resData.length - 1].id
 
 						await this.$axios
-							.get(`/api/scraping-job/${JOBS_ID}/json`, {
+							.get(`/fakerapi/scraping-job/${JOBS_ID}/json`, {
 								params: {
 									api_token: API_TOKEN
 								}
@@ -78,12 +78,12 @@ export default {
 								}
 							})
 							.catch(err => {
-								console.error(err)
+								console.log('error jobs: ', err)
 							})
 					}
 				})
 				.catch(err => {
-					console.error(err)
+					console.log('error list jobs: ', err)
 				})
 		}
 	}
