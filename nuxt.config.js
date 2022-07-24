@@ -1,14 +1,11 @@
 import defaultMeta from './config/defaultMeta'
 import sitemapConfig from './config/sitemapConfig'
 
-const listENVS = {
-	BASE_URL: process.env.BASE_URL,
-	API_URL: process.env.API_URL
-}
 /*
  ** Axios Instance
  */
 const AxiosInstance = {
+	baseURL: process.env.BASE_URL,
 	withCredentials: false,
 	retry: true,
 	headers: {
@@ -20,10 +17,16 @@ const AxiosInstance = {
 export default {
 	target: 'server',
 	// Duplicate .env
-	env: listENVS,
+	env: {
+		BASE_URL: process.env.BASE_URL,
+		API_URL: process.env.API_URL
+	},
 	// Global page headers (https://go.nuxtjs.dev/config-head)
 	head: {
 		title: 'Scrapesi - Collect, Convert, and Learn',
+		htmlAttrs: {
+			lang: 'en'
+		},
 		meta: defaultMeta,
 		link: [
 			{ rel: 'apple-touch-icon', href: '/favicon.png' },
@@ -72,8 +75,6 @@ export default {
 		AxiosInstance
 	},
 
-	// publicRuntimeConfig: listENVS,
-
 	privateRuntimeConfig: {
 		axios: {
 			baseURL: process.env.BASE_URL
@@ -83,7 +84,7 @@ export default {
 	proxy: {
 		'/api': {
 			target: process.env.API_URL,
-			pathRewrite: { '^/api/': '' },
+			pathRewrite: { '^/api': '' },
 			changeOrigin: true,
 			onProxyReq(request) {
 				request.setHeader('origin', process.env.API_URL)
