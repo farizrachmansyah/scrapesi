@@ -10,11 +10,10 @@ const pptr = require('puppeteer')
 class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
-			headless: true,
 			defaultViewport: null,
-			ignoreDefaultArgs: ['--disable-extensions'],
 			args: ['--no-sandbox', '--disable-setuid-sandbox']
 		})
+		console.log('browser opened')
 		try {
 			return await fn(browser)
 		} catch (err) {
@@ -32,6 +31,7 @@ class Jobs {
 		page.on('request', request => {
 			request.resourceType() === 'image' ? request.abort() : request.continue()
 		})
+		console.log('page opened')
 		try {
 			return await fn(page)
 		} catch (err) {
@@ -88,6 +88,7 @@ class Jobs {
 			await page.waitForSelector('#mosaic-provider-jobcards').catch(() => {
 				return allJobs
 			})
+			console.log('indeed page opened')
 
 			const jobsPerPage = await page
 				.$$eval(
@@ -139,6 +140,7 @@ class Jobs {
 			await page.waitForSelector('#jobs-panel').catch(() => {
 				return allJobs
 			})
+			console.log('jobsid page opened')
 
 			const jobsPerPage = await page
 				.$$eval('#job-ads-container > div', cards => {
