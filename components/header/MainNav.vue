@@ -57,35 +57,40 @@ export default {
 	@media #{$medium} {
 		& > ul {
 			display: flex;
+			align-items: center;
 		}
 	}
 
 	li {
 		font-weight: 500;
-		display: flex;
-		align-items: center;
-	}
 
-	ul,
-	li {
-		height: 100%;
+		&:not(:last-child) {
+			margin-bottom: 10px;
+		}
+		@media #{$medium} {
+			&:not(:last-child) {
+				margin-bottom: 0;
+			}
+		}
 	}
 }
 
 .header-link {
 	color: $secondary;
-	height: 100%;
-	display: flex;
-	align-items: center;
+	display: block;
 	padding: 5px 10px;
 
 	&.about {
 		height: unset;
-		margin-left: 10px;
 		padding: 10px 16px;
 		border-radius: 4px;
 		background: linear-gradient(to right, #31d35c, #2bb7da);
 		color: $white;
+		white-space: nowrap;
+
+		@media #{$medium} {
+			margin-left: 10px;
+		}
 
 		&:hover,
 		&:focus {
@@ -94,15 +99,17 @@ export default {
 	}
 
 	&.blur-active {
-		color: $white;
+		@media #{$medium} {
+			color: $white;
 
-		&:hover,
-		&:focus,
-		&.nuxt-link-active {
-			background: linear-gradient(to right, #31d35c, #2bb7da);
-			background-clip: text;
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
+			&:hover,
+			&:focus,
+			&.nuxt-link-active {
+				background: linear-gradient(to right, #31d35c, #2bb7da);
+				background-clip: text;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
 		}
 	}
 

@@ -5,13 +5,15 @@
 
 			<div class="header-nav">
 				<button
-					class="btn--ghost-grey nav-toggle"
+					:class="{ 'blur-active': activateBlur }"
+					class="btn--ghost-primary nav-toggle"
 					type="button"
 					aria-label="Menu"
+					@click.prevent="showNav = !showNav"
 				>
-					<span class="bzi-bars bzi-1_2x" aria-hidden="true"></span>
+					<span class="bzi-bars bzi-1_5x" aria-hidden="true"></span>
 				</button>
-				<div class="nav-container">
+				<div :class="{ open: showNav }" class="nav-container">
 					<headerMainNav :main-nav-data="mainNav" />
 				</div>
 			</div>
@@ -25,6 +27,7 @@ export default {
 	data() {
 		return {
 			activateBlur: false,
+			showNav: false,
 			mainNav: [
 				{
 					title: 'Job Listings',
@@ -94,18 +97,61 @@ export default {
 
 	// NAV
 	.header-nav {
+		position: relative;
+		display: flex;
+		align-items: center;
 		height: 100%;
 	}
 
 	.nav-toggle {
+		padding: 8px 16px;
+		border: 1px dashed transparent;
+
+		&:active,
+		&:focus,
+		&:hover {
+			border-color: $primary;
+			color: $primary;
+			background: transparent;
+		}
+
+		&.blur-active {
+			color: $white;
+			border-color: transparent;
+
+			&:active,
+			&:focus,
+			&:hover {
+				border-color: $white;
+			}
+		}
+
 		@media #{$medium} {
 			display: none;
 		}
 	}
-
 	.nav-container {
-		display: flex;
-		height: 100%;
+		position: absolute;
+		top: 100%;
+		right: 0;
+		transform: translateY(-15px);
+		opacity: 0;
+		pointer-events: none;
+		padding: 12px;
+		border-radius: 4px;
+		background: $white;
+		box-shadow: 0 2px 18px 2px rgba($accent, 0.25);
+		transition: all 0.1s ease-out;
+
+		&.open {
+			transform: translateY(15px);
+			opacity: 1;
+			pointer-events: all;
+		}
+
+		@media #{$medium} {
+			all: unset;
+		}
 	}
 }
 </style>
