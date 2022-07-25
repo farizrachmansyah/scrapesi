@@ -1,6 +1,6 @@
 <template>
 	<main class="site-main">
-		<div class="container pv-48 ph-24">
+		<div class="container">
 			<section class="info site-section">
 				<h4 class="title text-caps f-16">
 					a free automated job vacancies scraping converter tools
@@ -166,12 +166,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .site-main {
-// 	background: $white;
-// }
+.container {
+	padding: 16px;
+	@media #{$medium} {
+		padding: 48px 24px;
+	}
+}
 
 .site-section {
-	padding: 36px 0;
+	padding: 16px 0;
+
+	&:last-child {
+		margin-bottom: 32px;
+	}
+	@media #{$medium} {
+		padding: 36px 0;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 }
 
 .info {

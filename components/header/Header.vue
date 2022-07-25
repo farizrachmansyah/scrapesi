@@ -40,6 +40,11 @@ export default {
 			]
 		}
 	},
+	created() {
+		this.$nuxt.$on('closeNav', () => {
+			this.showNav = false
+		})
+	},
 	mounted() {
 		const scrollTrigger = 60
 		window.addEventListener('scroll', () => {

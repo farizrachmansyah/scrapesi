@@ -1,7 +1,12 @@
 <template>
 	<nav class="main-nav">
 		<ul class="list-nostyle">
-			<li v-for="(nav, i) in mainNavData" :key="i" class="main-nav__item">
+			<li
+				v-for="(nav, i) in mainNavData"
+				:key="i"
+				class="main-nav__item"
+				@click="$nuxt.$emit('closeNav')"
+			>
 				<nuxt-link
 					:class="{ 'blur-active': activateBlur }"
 					class="header-link text-caps text-bold f-12"
