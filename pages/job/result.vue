@@ -166,6 +166,14 @@ export default {
 			return counter
 		}
 	},
+	mounted() {
+		// set data jobs ke localstorage dan simpen di statenya
+		localStorage.setItem('recent_search_jobs', JSON.stringify(this.jobs))
+		this.$store.commit(
+			'job/STORE_JOBS',
+			JSON.parse(localStorage.getItem('recent_search_jobs'))
+		)
+	},
 	methods: {
 		changeTab(tab) {
 			const currQuery = this.$route.query

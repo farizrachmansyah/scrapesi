@@ -7,7 +7,7 @@ export const getters = {
 	getHistory: state => () => {
 		return state.searchKeyData
 	},
-	getRecent: state => () => {
+	getRecentKey: state => () => {
 		return state.recentKey
 	}
 }

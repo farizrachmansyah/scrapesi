@@ -63,7 +63,11 @@ export default {
 		)
 		this.$store.commit(
 			'history/SET_RECENTKEY',
-			JSON.parse(localStorage.getItem('recent_search'))
+			JSON.parse(localStorage.getItem('recent_search_key'))
+		)
+		this.$store.commit(
+			'job/STORE_JOBS',
+			JSON.parse(localStorage.getItem('recent_search_jobs'))
 		)
 	}
 }

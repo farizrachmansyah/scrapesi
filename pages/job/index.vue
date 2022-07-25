@@ -84,7 +84,7 @@ export default {
 		...mapGetters({
 			getJobs: 'job/getJobs',
 			getHistory: 'history/getHistory',
-			getRecent: 'history/getRecent'
+			getRecentKey: 'history/getRecentKey'
 		})
 	},
 	beforeDestroy() {
@@ -100,10 +100,10 @@ export default {
 				q,
 				loc
 			}
-			localStorage.setItem('recent_search', JSON.stringify(recentSearch))
+			localStorage.setItem('recent_search_key', JSON.stringify(recentSearch))
 			this.$store.commit(
 				'history/SET_RECENTKEY',
-				JSON.parse(localStorage.getItem('recent_search'))
+				JSON.parse(localStorage.getItem('recent_search_key'))
 			)
 		},
 		saveHistory(q, loc) {
@@ -143,10 +143,10 @@ export default {
 			}
 		},
 		goToRecent() {
-			const recentKey = this.getRecent()
-			const jobs = this.getJobs()
+			const recentKey = this.getRecentKey()
+			const recentJob = this.getJobs()
 
-			if (recentKey && jobs.length) {
+			if (recentKey && recentJob) {
 				this.hasRecentKey = true
 				this.$router.push({
 					path: '/job/result',
