@@ -144,8 +144,8 @@ export default {
 		pointer-events: none;
 		padding: 12px;
 		border-radius: 4px;
-		background: $white;
-		box-shadow: 0 2px 18px 2px rgba($accent, 0.25);
+		background: $primary;
+		box-shadow: 0 2px 18px 2px rgba($primary, 0.25);
 		transition: all 0.1s ease-out;
 
 		&.open {

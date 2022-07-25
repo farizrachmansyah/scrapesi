@@ -81,9 +81,19 @@ export default {
 }
 
 .header-link {
-	color: $secondary;
 	display: block;
 	padding: 5px 10px;
+	color: $white;
+
+	&:hover,
+	&:focus,
+	&.nuxt-link-active {
+		color: $accent;
+	}
+
+	&.nuxt-link-active {
+		border-right-color: $accent;
+	}
 
 	&.about {
 		height: unset;
@@ -103,6 +113,19 @@ export default {
 		}
 	}
 
+	@media #{$medium} {
+		color: $secondary;
+		&:hover,
+		&:focus,
+		&.nuxt-link-active {
+			color: $primary;
+		}
+
+		&.nuxt-link-active {
+			border-right-color: $primary;
+		}
+	}
+
 	&.blur-active {
 		@media #{$medium} {
 			color: $white;
@@ -116,16 +139,6 @@ export default {
 				-webkit-text-fill-color: transparent;
 			}
 		}
-	}
-
-	&:hover,
-	&:focus,
-	&.nuxt-link-active {
-		color: $primary;
-	}
-
-	&.nuxt-link-active {
-		border-right-color: $primary;
 	}
 }
 </style>
