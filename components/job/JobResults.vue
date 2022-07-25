@@ -172,7 +172,7 @@ export default {
 	}
 
 	p {
-		margin-right: 16px;
+		margin-right: 8px;
 
 		@media #{$medium} {
 			margin-right: 0;

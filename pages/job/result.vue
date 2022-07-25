@@ -117,8 +117,8 @@ export default {
 		JobCard,
 		HistoryCard
 	},
-	middleware({ store, redirect }) {
-		if (!store.state.job.jobs.length) {
+	middleware({ route, redirect }) {
+		if (!route.query.q || !route.query.loc) {
 			return redirect('/job')
 		}
 	},
