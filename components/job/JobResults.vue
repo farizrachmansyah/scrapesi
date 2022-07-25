@@ -2,7 +2,7 @@
 	<section class="wrapper">
 		<div class="container text-primary pv-36">
 			<h4 class="text-caps mb-24">download scraped data</h4>
-			<div class="flex v-end f-space-between">
+			<div class="card-wrapper flex f-space-between">
 				<div class="option-ext">
 					<p class="mb-0">Download as</p>
 					<div :class="{ 'is-active': openDropdown }" class="select-custom">
@@ -153,6 +153,50 @@ export default {
 	border-top: 3px solid $primary;
 }
 
+.card-wrapper {
+	flex-direction: column;
+	@media #{$medium} {
+		flex-direction: row;
+		align-items: flex-end;
+	}
+}
+
+.option-ext {
+	display: flex;
+	align-items: flex-end;
+	margin-bottom: 16px;
+	@media #{$medium} {
+		flex-direction: column;
+		align-items: flex-start;
+		margin-bottom: 0;
+	}
+
+	p {
+		margin-right: 16px;
+
+		@media #{$medium} {
+			margin-right: 0;
+		}
+	}
+}
+
+.option-btn {
+	display: flex;
+	align-items: center;
+
+	& > * {
+		flex: 1;
+		white-space: normal;
+		font-size: 10px;
+	}
+	@media #{$medium} {
+		& > * {
+			flex: unset;
+			font-size: 14px;
+		}
+	}
+}
+
 .btn-trigger {
 	width: unset !important;
 	padding: 0 !important;
@@ -164,15 +208,24 @@ export default {
 .select-custom__panel {
 	box-shadow: 0 3px 8px rgba($black, 0.1);
 	top: 0;
-	left: 0;
+	right: 0;
 	position: absolute;
-	transform: translate(0, -95%);
+	transform: translate(-80%, -95%);
 	width: 100px;
+
+	@media #{$medium} {
+		right: unset;
+		left: 0;
+		transform: translate(0, -95%);
+	}
 }
 
 .select-custom.is-active {
 	.select-custom__panel {
-		transform: translate(0, -105%);
+		transform: translate(-80%, -105%);
+		@media #{$medium} {
+			transform: translate(0, -95%);
+		}
 	}
 }
 

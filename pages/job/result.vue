@@ -50,14 +50,16 @@
 						<span class="text-bold">{{ $route.query.loc }}</span> and
 						<span class="text-bold"> others related data</span>.
 					</p>
-					<div class="bzg mb-48">
-						<div
-							v-for="(data, index) in jobsPerPage"
-							:key="index"
-							class="bzg_c"
-							data-col="s6m4"
-						>
-							<JobCard :card-data="data" />
+					<div class="result-wrapper">
+						<div class="bzg mb-48">
+							<div
+								v-for="(data, index) in jobsPerPage"
+								:key="index"
+								class="bzg_c"
+								data-col="s12m4"
+							>
+								<JobCard :card-data="data" />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -251,6 +253,12 @@ export default {
 	}
 }
 
+.result-wrapper {
+	padding: 0 16px;
+	@media #{$medium} {
+		padding: 0;
+	}
+}
 .result-component {
 	position: sticky;
 	z-index: 2;

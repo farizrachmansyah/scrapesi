@@ -9,15 +9,15 @@
 		<button class="btn-wrapper btn--ghost-primary pv-16 ph-24">
 			<div class="bzg">
 				<div class="bzg_c" data-col="s6">
-					<div class="flex">
+					<div>
 						<div class="mr-24">
-							<span class="d-block">Keyword</span>
+							<span>Keyword&Tab;- </span>
 							<span class="text-reg">{{
 								cardData.q.length ? cardData.q : '-'
 							}}</span>
 						</div>
 						<div>
-							<span class="d-block">Location</span>
+							<span>Location&Tab;- </span>
 							<span class="text-reg">{{
 								cardData.loc.length ? cardData.loc : '-'
 							}}</span>
