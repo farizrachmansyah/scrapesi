@@ -134,7 +134,7 @@ export default {
 		position: absolute;
 		top: 100%;
 		right: 0;
-		transform: translateY(-15px);
+		transform: translateY(15px) scale(0);
 		opacity: 0;
 		pointer-events: none;
 		padding: 12px;
@@ -144,7 +144,7 @@ export default {
 		transition: all 0.1s ease-out;
 
 		&.open {
-			transform: translateY(15px);
+			transform: translateY(15px) scale(1);
 			opacity: 1;
 			pointer-events: all;
 		}
