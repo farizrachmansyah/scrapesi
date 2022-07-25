@@ -19,7 +19,7 @@ export default {
 	// Duplicate .env
 	env: {
 		BASE_URL: process.env.BASE_URL,
-		FAKER_API_URL: process.env.FAKER_API_URL
+		ANALYTICS_URL: process.env.ANALYTICS_URL
 	},
 	// Global page headers (https://go.nuxtjs.dev/config-head)
 	head: {
@@ -83,11 +83,11 @@ export default {
 
 	proxy: {
 		'/fakerapi': {
-			target: process.env.FAKER_API_URL,
+			target: process.env.ANALYTICS_URL,
 			pathRewrite: { '^/fakerapi/': '' },
 			changeOrigin: true,
 			onProxyReq(request) {
-				request.setHeader('origin', process.env.FAKER_API_URL)
+				request.setHeader('origin', process.env.ANALYTICS_URL)
 			}
 		}
 	},
