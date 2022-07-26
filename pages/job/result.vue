@@ -118,7 +118,7 @@ export default {
 		HistoryCard
 	},
 	middleware({ route, redirect }) {
-		if (!route.query.q || !route.query.loc) {
+		if (!route.query.q && !route.query.loc) {
 			return redirect('/job')
 		}
 	},
