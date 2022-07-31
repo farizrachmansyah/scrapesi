@@ -10,6 +10,7 @@ const pptr = require('puppeteer')
 class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
+			headless: false,
 			defaultViewport: null,
 			args: ['--no-sandbox', '--disable-setuid-sandbox']
 		})
@@ -92,13 +93,16 @@ class Jobs {
 
 			try {
 				await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
+				console.log('indeed dom loaded')
 				isResults = await Promise.race(
 					selectors.map(async selector => {
 						if (selector === '.no_results') {
 							await page.waitForSelector(selector)
+							console.log('indeed no results detected')
 							return false
 						} else {
 							await page.waitForSelector(selector)
+							console.log('indeed results detected')
 							return true
 						}
 					})
@@ -107,7 +111,6 @@ class Jobs {
 				console.log('dom load error: ', err)
 				return allJobs
 			}
-			console.log('indeed page opened')
 
 			if (isResults) {
 				jobsPerPage = await page
@@ -168,13 +171,16 @@ class Jobs {
 
 			try {
 				await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
+				console.log('jobsid dom loaded')
 				isResults = await Promise.race(
 					selectors.map(async selector => {
 						if (selector === '#jobs-panel.hidden') {
 							await page.waitForSelector(selector)
+							console.log('jobsid no results detected')
 							return false
 						} else {
 							await page.waitForSelector(selector)
+							console.log('jobsid results detected')
 							return true
 						}
 					})
@@ -183,7 +189,6 @@ class Jobs {
 				console.log('dom load error: ', err)
 				return allJobs
 			}
-			console.log('jobsid page opened')
 
 			if (isResults) {
 				jobsPerPage = await page
