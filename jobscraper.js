@@ -87,33 +87,27 @@ class Jobs {
 		let allJobs = []
 
 		while (true) {
-			const selectors = ['.no_results', '.jobsearch-ResultsList']
-			let isResults, jobsPerPage
+			let isResults = false
+			let jobsPerPage = []
 
 			try {
 				await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
 				console.log('indeed dom loaded')
-				isResults = await Promise.race(
-					selectors.map(async selector => {
-						if (selector === '.no_results') {
-							await page.waitForSelector(selector)
-							console.log('indeed no results detected')
-							return false
-						} else {
-							await page.waitForSelector(selector)
-							console.log('indeed results detected')
-							return true
-						}
-					})
-				)
+				isResults = await page.evaluate(() => {
+					const container = document.querySelector('.jobsearch-ResultsList')
+					return !!container
+				})
 			} catch (err) {
-				console.log('dom load error: ', err)
-				return allJobs
+				// page goto error = no results/data
+				// container ga ketemu = no results/data
+				// if one of that case happened, break
+				console.log('indeed dom load error: ', err)
+				break
 			}
 
 			if (isResults) {
-				jobsPerPage = await page
-					.$$eval(
+				try {
+					jobsPerPage = await page.$$eval(
 						'.jobsearch-ResultsList .tapItem.result .job_seen_beacon',
 						cards => {
 							return cards.map(card => ({
@@ -129,13 +123,14 @@ class Jobs {
 							}))
 						}
 					)
-					.catch(err => {
-						console.log('error at indeed jobsPerPage: ', err)
-					})
+				} catch (err) {
+					console.log('error at indeed jobsPerPage: ', err)
+				} finally {
+					allJobs = [...allJobs, ...jobsPerPage]
+				}
 			} else {
-				jobsPerPage = []
+				allJobs = [...allJobs, ...jobsPerPage]
 			}
-			allJobs = [...allJobs, ...jobsPerPage]
 
 			try {
 				baseUrl = await page.$eval(
@@ -155,43 +150,47 @@ class Jobs {
 	}
 
 	static async scrapeFromJobsid(query, loc, page) {
+		let allJobs = []
+		let baseUrl
+
+		// atur lokasi jakarta
 		const modifiedLoc = loc
 			? loc.toLowerCase() === 'jakarta'
 				? 'dki-jakarta'
 				: loc
 			: loc
-		let baseUrl = `https://www.jobs.id/lowongan-kerja-${query}-di-${modifiedLoc}?kata-kunci=${query}`
-		let allJobs = []
-		let pageCount = 1
+
+		// atur base url
+		if (query.length && loc.length) {
+			baseUrl = `https://www.jobs.id/lowongan-kerja-${query}-di-${modifiedLoc}?kata-kunci=${query}`
+		} else if (query.length) {
+			baseUrl = `https://www.jobs.id/lowongan-kerja-${query}?kata-kunci=${query}`
+		} else {
+			baseUrl = `https://www.jobs.id/lowongan-kerja-di-${modifiedLoc}`
+		}
 
 		while (true) {
-			const selectors = ['#jobs-panel.hidden', '#no-jobs-panel.hidden']
-			let isResults, jobsPerPage
+			let isResults = false
+			let jobsPerPage = []
 
 			try {
 				await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
 				console.log('jobsid dom loaded')
-				isResults = await Promise.race(
-					selectors.map(async selector => {
-						if (selector === '#jobs-panel.hidden') {
-							await page.waitForSelector(selector)
-							console.log('jobsid no results detected')
-							return false
-						} else {
-							await page.waitForSelector(selector)
-							console.log('jobsid results detected')
-							return true
-						}
-					})
-				)
+				isResults = await page.evaluate(() => {
+					const container = document.querySelector('#no-jobs-panel.hidden')
+					return !!container
+				})
 			} catch (err) {
-				console.log('dom load error: ', err)
-				return allJobs
+				// page goto error = no results/data
+				// container ga ketemu = no results/data
+				// if one of that case happened, break
+				console.log('jobsid dom load error: ', err)
+				break
 			}
 
 			if (isResults) {
-				jobsPerPage = await page
-					.$$eval('#job-ads-container > div', cards => {
+				try {
+					jobsPerPage = await page.$$eval('#job-ads-container > div', cards => {
 						return cards.map(card => ({
 							jobTitle: card.querySelector('h3 > a.bold').textContent,
 							companyName: card.querySelector(
@@ -208,35 +207,31 @@ class Jobs {
 							url: card.querySelector('h3 > a.bold').getAttribute('href')
 						}))
 					})
-					.catch(err => {
-						console.log('error at jobs.id jobsPerPage: ', err)
-					})
+				} catch (err) {
+					console.log('error at jobs.id jobsPerPage: ', err)
+				} finally {
+					allJobs = [...allJobs, ...jobsPerPage]
+				}
 			} else {
-				jobsPerPage = []
+				allJobs = [...allJobs, ...jobsPerPage]
 			}
-			allJobs = [...allJobs, ...jobsPerPage]
 
 			try {
-				if (pageCount === 1) {
-					baseUrl = await page.$eval(
-						'#pagination-container > ul > li:nth-child(5) > a',
-						el => {
-							return el.href
+				baseUrl = await page.$$eval(
+					'#pagination-container > ul > li.hidden-xs > a',
+					els => {
+						if (els.length > 1) {
+							return els[1].href
+						} else if (els[0].rel === 'next') {
+							return els[0].href
+						} else {
+							throw new Error('next button not found')
 						}
-					)
-				} else {
-					baseUrl = await page.$eval(
-						'#pagination-container > ul > li:nth-child(7) > a',
-						el => {
-							return el.href
-						}
-					)
-				}
+					}
+				)
 			} catch {
 				break
 			}
-
-			pageCount++
 		}
 
 		return allJobs

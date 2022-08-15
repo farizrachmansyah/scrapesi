@@ -44,9 +44,23 @@
 		>
 			<div v-if="isResultTab" class="pv-24">
 				<div v-if="jobs.length">
-					<p class="text-primary mb-24">
+					<p
+						v-if="$route.query.q && $route.query.loc"
+						class="text-primary mb-24"
+					>
 						Found {{ totalJobs }} vacancies for
 						<span class="text-bold">{{ $route.query.q }}</span> positions in
+						<span class="text-bold">{{ $route.query.loc }}</span> and
+						<span class="text-bold"> others related data</span>.
+					</p>
+					<p v-else-if="$route.query.q" class="text-primary mb-24">
+						Found {{ totalJobs }} vacancies for
+						<span class="text-bold">{{ $route.query.q }}</span> positions in
+						several locations and
+						<span class="text-bold"> others related data</span>.
+					</p>
+					<p v-else-if="$route.query.loc" class="text-primary mb-24">
+						Found {{ totalJobs }} vacancies for several positions in
 						<span class="text-bold">{{ $route.query.loc }}</span> and
 						<span class="text-bold"> others related data</span>.
 					</p>
