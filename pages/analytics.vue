@@ -45,8 +45,10 @@ export default {
 	},
 	methods: {
 		async getData() {
+			// const API_TOKEN =
+			// 	'GMM0tkDJqJsOESZoG4eRfaMVmeo8NZLqazPB0Fw2vTKt2qthaNGkkJVCyNlT'
 			const API_TOKEN =
-				'GMM0tkDJqJsOESZoG4eRfaMVmeo8NZLqazPB0Fw2vTKt2qthaNGkkJVCyNlT'
+				'jtPP1VwQc5vnhLUblJ6oUsvMsKzEpyqodiEnB6AJ7GeywtOtpi6Z2Y3Mskn5'
 
 			await this.$axios
 				.get('/fakerapi/scraping-jobs/', {
