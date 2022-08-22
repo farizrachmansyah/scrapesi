@@ -1,1 +1,1 @@
-worker: jobscraper.js
+worker: node jobscraper.js
