@@ -39,7 +39,7 @@ class Jobs {
 		} catch (err) {
 			console.log('error at page: ', err)
 		} finally {
-			await page.close()
+			await page.waitForTimeout(1000)
 		}
 	}
 
@@ -97,9 +97,6 @@ class Jobs {
 					return !!container
 				})
 			} catch (err) {
-				// page goto error = no results/data
-				// container ga ketemu = no results/data
-				// if one of that case happened, break
 				console.log('indeed dom load error: ', err)
 				break
 			}
@@ -124,8 +121,7 @@ class Jobs {
 					)
 					allJobs = [...allJobs, ...jobsPerPage]
 
-					// find next btn
-					// if next btn doesnt exist, break
+					// find next btn to replace baseUrl value
 					try {
 						baseUrl = await page.$eval(
 							'#resultsCol > nav > div > ul > li:last-child > a',
@@ -140,7 +136,10 @@ class Jobs {
 					}
 				} catch (err) {
 					console.log('error at indeed jobsPerPage: ', err)
+					break
 				}
+			} else {
+				break
 			}
 		}
 
@@ -221,7 +220,10 @@ class Jobs {
 					}
 				} catch (err) {
 					console.log('error at jobs.id jobsPerPage: ', err)
+					break
 				}
+			} else {
+				break
 			}
 		}
 

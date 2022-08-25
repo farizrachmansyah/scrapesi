@@ -1,5 +1,9 @@
 <template>
-	<nuxt-link to="/" :class="{ 'blur-active': activateBlur }" class="site-logo">
+	<nuxt-link
+		to="/job"
+		:class="{ 'blur-active': activateBlur }"
+		class="site-logo"
+	>
 		Scrapesi
 	</nuxt-link>
 </template>
