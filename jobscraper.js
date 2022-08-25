@@ -13,7 +13,6 @@ class Jobs {
 			defaultViewport: null,
 			args: ['--no-sandbox', '--disable-setuid-sandbox']
 		})
-		console.log('browser opened')
 
 		try {
 			return await fn(browser)
@@ -26,12 +25,13 @@ class Jobs {
 
 	static withPage = browser => async fn => {
 		const page = await browser.newPage()
-		console.log('page opened')
 
-		// disable image request (biar lebih cepet loadnya)
+		// set request only for document (biar lebih cepet loadnya)
 		await page.setRequestInterception(true)
 		page.on('request', request => {
-			request.resourceType() === 'image' ? request.abort() : request.continue()
+			request.resourceType() === 'document'
+				? request.continue()
+				: request.abort()
 		})
 
 		try {
@@ -92,7 +92,6 @@ class Jobs {
 
 			try {
 				await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
-				console.log('indeed dom loaded')
 				isResults = await page.evaluate(() => {
 					const container = document.querySelector('.jobsearch-ResultsList')
 					return !!container
@@ -123,26 +122,25 @@ class Jobs {
 							}))
 						}
 					)
+					allJobs = [...allJobs, ...jobsPerPage]
+
+					// find next btn
+					// if next btn doesnt exist, break
+					try {
+						baseUrl = await page.$eval(
+							'#resultsCol > nav > div > ul > li:last-child > a',
+							el => {
+								if (el.ariaLabel === 'Next' || el.ariaLabel === 'Berikutnya') {
+									return el.href
+								}
+							}
+						)
+					} catch {
+						break
+					}
 				} catch (err) {
 					console.log('error at indeed jobsPerPage: ', err)
-				} finally {
-					allJobs = [...allJobs, ...jobsPerPage]
 				}
-			} else {
-				allJobs = [...allJobs, ...jobsPerPage]
-			}
-
-			try {
-				baseUrl = await page.$eval(
-					'#resultsCol > nav > div > ul > li:last-child > a',
-					el => {
-						if (el.ariaLabel === 'Next' || el.ariaLabel === 'Berikutnya') {
-							return el.href
-						}
-					}
-				)
-			} catch {
-				break
 			}
 		}
 
@@ -175,15 +173,11 @@ class Jobs {
 
 			try {
 				await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
-				console.log('jobsid dom loaded')
 				isResults = await page.evaluate(() => {
 					const container = document.querySelector('#no-jobs-panel.hidden')
 					return !!container
 				})
 			} catch (err) {
-				// page goto error = no results/data
-				// container ga ketemu = no results/data
-				// if one of that case happened, break
 				console.log('jobsid dom load error: ', err)
 				break
 			}
@@ -207,30 +201,27 @@ class Jobs {
 							url: card.querySelector('h3 > a.bold').getAttribute('href')
 						}))
 					})
+					allJobs = [...allJobs, ...jobsPerPage]
+
+					try {
+						baseUrl = await page.$$eval(
+							'#pagination-container > ul > li.hidden-xs > a',
+							els => {
+								if (els.length > 1) {
+									return els[1].href
+								} else if (els[0].rel === 'next') {
+									return els[0].href
+								} else {
+									throw new Error('next button not found')
+								}
+							}
+						)
+					} catch {
+						break
+					}
 				} catch (err) {
 					console.log('error at jobs.id jobsPerPage: ', err)
-				} finally {
-					allJobs = [...allJobs, ...jobsPerPage]
 				}
-			} else {
-				allJobs = [...allJobs, ...jobsPerPage]
-			}
-
-			try {
-				baseUrl = await page.$$eval(
-					'#pagination-container > ul > li.hidden-xs > a',
-					els => {
-						if (els.length > 1) {
-							return els[1].href
-						} else if (els[0].rel === 'next') {
-							return els[0].href
-						} else {
-							throw new Error('next button not found')
-						}
-					}
-				)
-			} catch {
-				break
 			}
 		}
 
