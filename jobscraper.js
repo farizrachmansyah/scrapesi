@@ -11,7 +11,11 @@ class Jobs {
 	static withBrowser = async fn => {
 		const browser = await pptr.launch({
 			defaultViewport: null,
-			args: ['--no-sandbox', '--disable-setuid-sandbox']
+			args: [
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
+			]
 		})
 
 		try {
@@ -39,7 +43,7 @@ class Jobs {
 		} catch (err) {
 			console.log('error at page: ', err)
 		} finally {
-			await page.waitForTimeout(1000)
+			await page.close()
 		}
 	}
 
@@ -92,10 +96,12 @@ class Jobs {
 
 			try {
 				await page.goto(baseUrl, { waitUntil: 'domcontentloaded' })
+				console.log('indeed page opened')
 				isResults = await page.evaluate(() => {
 					const container = document.querySelector('.jobsearch-ResultsList')
 					return !!container
 				})
+				console.log('is results detected: ', isResults)
 			} catch (err) {
 				console.log('indeed dom load error: ', err)
 				break
